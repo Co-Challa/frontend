@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
 import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -9,7 +10,7 @@ import ChatPage from "./pages/ChatPage";
 
 function App() {
   return (
-    <>
+    <div className="web_layout_wrapper">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
@@ -22,7 +23,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
