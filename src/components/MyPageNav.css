@@ -1,0 +1,23 @@
+.mypage_nav {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin-top: 40px;
+  padding-bottom: 20px;
+}
+
+.mypage_nav_item {
+  background-color: transparent;
+  border: none;
+  padding: 8px 30px;
+  font-size: 16px;
+  color: #7C7C7F;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.mypage_nav_item.active {
+  background-color: #626FE4;
+  color: white;
+}
