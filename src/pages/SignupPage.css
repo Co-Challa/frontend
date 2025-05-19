@@ -1,0 +1,100 @@
+/* SignupPage.css */
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url('../assets/images/bg_main.png') no-repeat center/cover;
+  font-family: 'Arial', sans-serif;
+}
+
+.signup-container {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.signup-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-selection label {
+  cursor: pointer;
+}
+
+.profile-selection input[type="radio"] {
+  display: none;
+}
+
+.profile-selection img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  object-fit: cover;
+}
+
+.profile-selection input[type="radio"]:checked + img {
+  border-color: #6366f1;
+}
+
+.signup-form label,
+.signup-form div p {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.signup-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.signup-form button:hover {
+  background-color: #4f46e5;
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.login-link a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: bold;
+}
