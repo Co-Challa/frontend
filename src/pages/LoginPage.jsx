@@ -33,7 +33,6 @@ export default function LoginPage() {
 
       if (token) {
         localStorage.setItem("token", token);
-        alert("로그인 성공!");
         navigate("/");
       } else {
         alert("토큰이 없습니다.");

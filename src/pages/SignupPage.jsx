@@ -41,6 +41,13 @@ export default function SignupPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(form.password !== form.confirmPassword){
+      setPasswordMatchError(true);
+      alert("비밀번호가 일치하지 않습니다. 확인해주세요.")
+      return;
+    }
+
     try {
       await axios.post("http://localhost:8080/signup", form);
       alert("회원가입 성공");
