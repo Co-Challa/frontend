@@ -1,0 +1,49 @@
+.usercomment_card {
+    position: relative;
+  background: #fff;
+  border: 1px solid #EBEBEA;
+  border-radius: 10px;
+  padding: 25px 70px 25px 25px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.usercomment_content {
+  font-size: 15px;
+  color: #242524;
+  line-height: 20px;
+}
+
+.usercomment_date {
+  font-size: 13px;
+  color: #8C8D8B;
+  margin-top: 5px;
+}
+
+.usercomment_info {
+  font-size: 13px;
+  color: #8C8D8B;
+  margin-top: 10px;
+}
+
+.usercomment_info .post_nickname {
+  color: #242524;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.usercomment_delete {
+  position: absolute;
+  background: none;
+  border: none;
+  top: 40%;
+  right: 25px;
+}
+
+.usercomment_delete img {
+  width: 20px;
+  height: 20px;
+}
