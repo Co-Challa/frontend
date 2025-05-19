@@ -1,0 +1,116 @@
+/* Group 1094 */
+.header_wrapper {
+    width: 100%;
+    height: 60px;
+}
+
+/* Rectangle 1448 */
+.header_frame {
+    width: 100%;
+    height: 58px;
+    background: #FFFFFF;
+}
+
+/* Rectangle 1449 */
+.header_frame_shadow {
+    width: 100%;
+    height: 2px;
+    background: #EBEBEA;
+}
+
+.header_content_frame {
+    position: relative;
+    top: -100%; /* Adjust to overlap the frame and shadow */
+    width: 100%;
+    height: 60px;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Distribute items to ends */
+    align-items: center; /* Vertically align items */
+    padding: 0 10%; /* Add padding to match the image's spacing from the edges */
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+/* Group 1095 */
+.cochalla_frame {
+    display: flex; /* Use flexbox for logo and text */
+    align-items: center; /* Vertically align logo and text */
+    gap: 10px; /* Space between logo and text */
+    /* Remove absolute positioning and left here, as flexbox handles it */
+}
+
+/* Cochalla */
+.cochalla_text {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000000;
+    /* Remove absolute positioning and margins */
+}
+
+/* Group 11 */
+.cochalla_logo {
+    width: 40px;
+    height: 40px;
+}
+
+/* Group 1096 */
+.feature_frame {
+    display: flex; /* Use flexbox for question box and user/login */
+    align-items: center; /* Vertically align items */
+    gap: 20px; /* Space between the question box and user/login */
+    /* Remove absolute positioning and margins */
+}
+
+/* Rectangle 22 */
+.question_box {
+    width: 120px;
+    height: 40px;
+    background: linear-gradient(97.36deg, #B83BFA 12.57%, #30C9F7 108.91%);
+    border-radius: 8px;
+    display: flex; /* Use flexbox for icon and text inside the button */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 5px; /* Space between icon and text */
+}
+
+/* 질문하기 */
+.question_text {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    /* Remove absolute positioning and margins */
+}
+
+/* stars */
+.question_icon {
+    width: 24px;
+    height: 24px;
+    /* Remove absolute positioning and margins */
+}
+
+/* 로그인 */
+.login {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.02em;
+    color: #626FE4;
+    /* Remove absolute positioning and margins */
+}
+
+/* Ellipse 2 */
+.user_img {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #EBEBEA;
+    border-radius: 50%; /* Make it a circle */
+    /* Remove absolute positioning and margins */
+}
