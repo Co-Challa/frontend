@@ -27,6 +27,9 @@
   font-weight: 700;
   margin: 10px 0;
   color: #242524;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .userpost_card_content {
