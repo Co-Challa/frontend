@@ -34,11 +34,6 @@ export default function UserInfoEditModal({ initialUser, onClose, onSave }) {
       };
 
       await updateUserInfo(updatedUser);
-
-      localStorage.setItem("profile_img", String(updatedUser.profile_img));
-      localStorage.setItem("nickname", updatedUser.nickname);
-      localStorage.setItem("res_time", String(updatedUser.res_time));
-
       onSave(updatedUser);
       onClose();
     } catch (error) {

@@ -4,13 +4,18 @@ import editIcon from "../assets/icons/edit.png";
 import logoutIcon from "../assets/icons/logout.png";
 import UserInfoEditModal from "./UserInfoEditModal";
 
-export default function MyPageHeader({ user, onLogout, onUpdate }) {
+export default function MyPageHeader({ user, onUpdate }) {
   const [showModal, setShowModal] = useState(false);
 
   const avatarSrc = new URL(
     `../assets/images/profile/profile_${user.profile_img}.png`,
     import.meta.url
   ).href;
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    window.location.href = "/signin";
+  };
 
   return (
     <>
@@ -30,7 +35,7 @@ export default function MyPageHeader({ user, onLogout, onUpdate }) {
             <div className="mypage_user_id">ID: {user.user_id}</div>
           </div>
         </div>
-        <button className="mypage_logout" type="button">
+        <button className="mypage_logout" type="button" onClick={handleLogout}>
           로그아웃 <img className="arrow" src={logoutIcon} alt="" />
         </button>
       </header>

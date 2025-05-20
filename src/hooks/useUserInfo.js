@@ -26,10 +26,6 @@ export default function useUserInfo() {
         try {
             const u = await fetchUserById();
             setUser(u);
-            if (u.nickname != null) localStorage.setItem('nickname', u.nickname);
-            if (u.profile_img != null) localStorage.setItem('profile_img', String(u.profile_img));
-            if (u.res_time != null) localStorage.setItem('res_time', String(u.res_time));
-            if (u.user_id != null) localStorage.setItem('user_id', u.user_id);
         } catch (err) {
             console.error('유저 정보 페칭 실패', err);
             setError(err);
@@ -44,9 +40,6 @@ export default function useUserInfo() {
             fetchUserById()
                 .then((u) => {
                     setUser(u);
-                    if (u.nickname != null) localStorage.setItem('nickname', u.nickname);
-                    if (u.profile_img != null) localStorage.setItem('profile_img', String(u.profile_img));
-                    if (u.res_time != null) localStorage.setItem('res_time', String(u.res_time));
                 })
                 .catch((err) => {
                     console.error('유저 정보 페칭 실패', err);
