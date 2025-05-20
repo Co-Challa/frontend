@@ -21,7 +21,10 @@ export default function MainPost({ post }) {
           className="user_image"
         />
         <div>
-          <div className="user_nickname">post by{nickname}</div>
+         <div className="user_nickname">
+            <span className="prefix">post by </span>
+            <span className="nickname">{nickname}</span>
+          </div>
           <div className="created_At">
             {formatDistanceToNow(new Date(createdAt), {
               addSuffix: true,
