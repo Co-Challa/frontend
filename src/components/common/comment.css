@@ -17,7 +17,7 @@
     display: flex;
     align-items: center; /* Vertically align avatar, author, and delete button */
     /* Removed justify-content: space-between; as we'll use auto-margins or flex-grow for spacing */
-    margin-bottom: 8px; /* Space between meta line and comment content */
+    /*margin-bottom: 8px; /* Space between meta line and comment content */
 }
 
 .user_avatar {
