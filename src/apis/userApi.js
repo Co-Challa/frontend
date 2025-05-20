@@ -60,3 +60,46 @@ export async function updateUserInfo(updatedInfo) {
         }
     });
 }
+
+export async function updatePostVisibility(postId, isPublic) {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        throw new Error('accessToken이 없습니다.');
+    }
+
+    const rawValue = isPublic ? 1 : 0;
+
+    await axiosInstance.patch(`/post/${postId}`, rawValue, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export async function togglePostLike(postId, liked) {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        throw new Error('accessToken이 없습니다.');
+    }
+
+    const value = liked ? 1 : 0;
+
+    await axiosInstance.post(`/like/${postId}`, value, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export async function deleteComment(commentId) {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        throw new Error('accessToken이 없습니다.');
+    }
+
+    await axiosInstance.delete(`/comment/${commentId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}

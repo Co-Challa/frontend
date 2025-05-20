@@ -4,6 +4,7 @@ import "./UserPostCard.css";
 import heartIcon from "../assets/icons/heart.png";
 import likedHeartIcon from "../assets/icons/likedheart.png";
 import messageIcon from "../assets/icons/message.png";
+import { updatePostVisibility, togglePostLike  } from "../apis/userApi";
 
 export default function UserPostCard({ post }) {
   const {
@@ -37,17 +38,30 @@ export default function UserPostCard({ post }) {
     import.meta.url
   ).href;
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
     const next = !publicState;
     setPublicState(next);
-    //api 연결
+
+    try {
+      await updatePostVisibility(post_id, next);
+    } catch (error) {
+      console.error("공개 여부 변경 실패:", error);
+      setPublicState(!next);
+    }
   };
 
-  const handleLike = () => {
+  const handleLike = async () => {
     const next = !likedState;
     setLikedState(next);
     setLikeCount((prev) => prev + (next ? 1 : -1));
-    //api 연결
+
+    try {
+      await togglePostLike(post_id, next);
+    } catch (error) {
+      console.error("좋아요 토글 실패:", error);
+      setLikedState(!next);
+      setLikeCount((prev) => prev - (next ? 1 : -1));
+    }
   };
 
   return (
@@ -55,12 +69,11 @@ export default function UserPostCard({ post }) {
       <div className="userpost_card_header">
         {showAuthor ? (
           <span className="userpost_card_date with_profile">
-            <img
-              src={avatarSrc}
-              alt="profile"
-              className="profile_img"
-            />
-            <span>Posted by <span className="post_nickname">{author_name}</span> · {formattedDate}</span>
+            <img src={avatarSrc} alt="profile" className="profile_img" />
+            <span>
+              Posted by <span className="post_nickname">{author_name}</span> ·{" "}
+              {formattedDate}
+            </span>
           </span>
         ) : (
           <span className="userpost_card_date">{formattedDate}</span>

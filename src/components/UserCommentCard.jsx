@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./userCommentCard.css";
 import trashIcon from "../assets/icons/trash.png";
+import { deleteComment } from "../apis/userApi";
 
 export default function UserCommentCard({ comment, onDelete }) {
   const {
@@ -18,10 +19,16 @@ export default function UserCommentCard({ comment, onDelete }) {
     setShowModal(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
+  try {
+    await deleteComment(comment_id);
     onDelete?.(comment_id);
     setShowModal(false);
-  };
+  } catch (error) {
+    console.error("댓글 삭제 실패:", error);
+    alert("댓글 삭제에 실패했습니다.");
+  }
+};
 
   const cancelDelete = () => {
     setShowModal(false);
