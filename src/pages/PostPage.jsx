@@ -1,88 +1,81 @@
+import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+
+import axios from 'axios';
+import Comment from "../components/common/Comment";
 import "./postPage.css";
 
 export default function PostPage() {
+  const [postInfo, setPostInfo] = useState(null);
+
+  useEffect(() => {
+    const req = async (postId) => {
+      try {
+        const res = await axios.get(`http://localhost:8080/post/1`);
+        const data = res.data;
+
+        setPostInfo(data);
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    // API 요청
+    req();
+  }, []);
+
   return (
-    <>
-      <div className="post_container">
-        <div className="post_header">
-          <h1 className="post_title">제목</h1>
-          <div class="profile_info_bar">
-            <div class="profile_details">
-                <img class="profile_avatar" src="src\assets\images\profile\profile_1.png" alt="Profile Avatar" />
-                <span class="posted_by_text">Posted by <span class="author_name">홍길동</span> · 2024-05-24</span>
+    postInfo == null ?
+      (<h1 className="post_container"> Loading... </h1>)
+      : (
+        <>
+          <div className="post_container">
+            <div className="post_header">
+              <h1 className="post_title">{postInfo.post.title}</h1>
+              <div className="profile_info_bar">
+                <div className="profile_details">
+                  <img className="profile_avatar" src="src\assets\images\profile\profile_1.png" alt="Profile Avatar" />
+                  <span className="posted_by_text">Posted by <span className="author_name">{postInfo.post.nickname}</span> · {new Date(postInfo.post.createdAt).toLocaleString("ko-KR")}</span>
+                </div>
+                <div className="actions_right"> {/* 작성자이면, 보이기 */}
+                  <Link to="/chat">
+                    <img className="notification_icon" src="src\assets\icons\message-circle.png" alt="Notifications" />
+                  </Link>
+                  <label className="toggle_switch">
+                    <input type="checkbox" />
+                    <span className="slider round"></span>
+                  </label>
+                </div>
+              </div>
             </div>
-            <div class="actions_right">
-                <img class="notification_icon" src="src\assets\icons\message-circle.png" alt="Notifications" />
-                <label class="toggle_switch">
-                  <input type="checkbox" />
-                  <span class="slider round"></span>
-                </label>
+
+            <div className="post_section">
+              {postInfo.post.content}
             </div>
-        </div>
-        </div>
 
-        <div className="post_section">
-          <p className="section_paragraph">
-            내용 1
-          </p>
-          <div className="code_block">
-            코드 1
-          </div>
-        </div>
+            <div className="post_actions_summary">
+              <label className="action_item">
+                <input type="checkbox" />
+                <img src="src\assets\icons\empty_heart.png" alt="Likes" className="action_icon" />
+                <img src="src\assets\icons\full_heart.png" alt="Likes" className="action_icon" />
+                <span className="action_count">{postInfo.post.totalLikeCnt}</span>
+              </label>
+              <label className="action_item">
+                <input type="checkbox" />
+                <img src="src/assets/icons/message-circle.png" alt="Comments" className="action_icon" />
+                <span className="action_count">{postInfo.post.totalCommentCnt}</span>
+              </label>
+            </div>
 
-        <div className="post_section">
-          <p className="section_paragraph">
-            내용 2
-          </p>
-          <ul>
-            <li>리스트 1</li>
-            <li>리스트 2</li>
-            <li>리스트 3</li>
-          </ul>
-        </div>
+            <h3 className="comments_heading">{postInfo.post.totalCommentCnt}개의 댓글</h3>
 
-        <div className="post_section">
-          <h2 className="section_heading">강조</h2>
-          <div className="code_block">
-            코드2
-          </div>
-          <p className="section_paragraph">
-            내용 3
-          </p>
-        </div>
-
-        <div className="tip_section">
-          <p className="tip_title">
-            <span className="tip_label">Tip: </span>팁 제목
-          </p>
-          <p className="tip_content">
-            팁 내용
-          </p>
-          <div className="code_block">
-            코드 3
-          </div>
-        </div>
-
-        <div class="post_actions_summary">
-          <label class="action_item">
-            <input type="checkbox" />
-            <img src="src\assets\icons\empty_heart.png" alt="Likes" class="action_icon" />
-            <span class="action_count">3,120</span>
-          </label>
-          <label class="action_item">
-            <input type="checkbox" />
-              <img src="src/assets/icons/message-circle.png" alt="Comments" class="action_icon" />
-              <span class="action_count">58</span>
-          </label>
-        </div>
-
-        <h3 class="comments_heading">4개의 댓글</h3>
-
-        <div class="comment_input_section">
-            <textarea class="comment_textarea" placeholder="댓글을 작성하세요..."></textarea>
-            <button class="submit_comment_button">댓글 작성</button>
-        </div>
-      </div>
-    </>
+            <div className="comment_input_section">
+              <textarea className="comment_textarea" placeholder="댓글을 작성하세요..."></textarea>
+              <button className="submit_comment_button">댓글 작성</button>
+            </div>
+          </div><Comment comments={postInfo.comments} />
+        </>
+      )
   );
 }
