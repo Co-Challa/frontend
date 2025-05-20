@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./MyPageHeader.css";
+import "./myPageHeader.css";
 import editIcon from "../assets/icons/edit.png";
 import logoutIcon from "../assets/icons/logout.png";
 import UserInfoEditModal from "./UserInfoEditModal";

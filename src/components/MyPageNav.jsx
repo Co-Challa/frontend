@@ -1,5 +1,4 @@
-import React from 'react';
-import './MyPageNav.css';
+import './myPageNav.css';
 
 export default function MyPageNav({ tabs, activeTab, onChange }) {
   return (

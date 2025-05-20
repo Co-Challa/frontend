@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./UserInfoEditModal.css";
+import "./userInfoEditModal.css";
 import { updateUserInfo } from "../apis/userApi";
 
 import profile1 from "../assets/images/profile/profile_1.png";

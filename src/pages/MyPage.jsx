@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Mypage.css";
+import "./mypage.css";
 import useUserInfo from "../hooks/useUserInfo";
 import MyPageHeader from "../components/MypageHeader";
 import MyPageNav from "../components/MyPageNav";

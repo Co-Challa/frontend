@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import "./UserPostCard.css";
+import "./userPostCard.css";
 import heartIcon from "../assets/icons/heart.png";
 import likedHeartIcon from "../assets/icons/likedheart.png";
 import messageIcon from "../assets/icons/message.png";
