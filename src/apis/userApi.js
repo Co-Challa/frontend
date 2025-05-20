@@ -45,3 +45,18 @@ export async function fetchUserComments(offset, limit) {
     });
     return data;
 }
+
+export async function updateUserInfo(updatedInfo) {
+  const userId = localStorage.getItem("user_id");
+  if (!userId) {
+    throw new Error("user_id가 로컬스토리지에 없습니다.");
+  }
+
+  const { data } = await axiosInstance.post(`/user/update/${userId}`, updatedInfo, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return data;
+}

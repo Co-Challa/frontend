@@ -10,7 +10,7 @@ import UserPostCard from "../components/UserPostCard";
 import UserCommentCard from "../components/UserCommentCard";
 
 export default function MyPage() {
-  const { user, loading, error } = useUserInfo();
+  const { user, loading, error, refetch } = useUserInfo();
   const [activeTab, setActiveTab] = useState("내 게시글");
   const tabs = ["내 게시글", "관심 게시글", "내 댓글"];
 
@@ -28,12 +28,19 @@ export default function MyPage() {
     lastRef: commentsLastRef,
   } = useInfiniteList(fetchUserComments, 10);
 
+  const handleLogout = () => {
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("profile_img");
+    localStorage.removeItem("nickname");
+    localStorage.removeItem("res_time");
+  };
+
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>오류 발생</div>;
 
   return (
     <div className="mypage">
-      <MyPageHeader user={user} />
+      <MyPageHeader user={user}  onLogout={handleLogout} onUpdate={refetch} />
 
       <MyPageNav tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 

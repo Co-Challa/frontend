@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./UserInfoEditModal.css";
+import { updateUserInfo } from "../apis/userApi";
+
 import profile1 from "../assets/images/profile/profile_1.png";
 import profile2 from "../assets/images/profile/profile_2.png";
 import profile3 from "../assets/images/profile/profile_3.png";
@@ -19,9 +21,31 @@ export default function UserInfoEditModal({ initialUser, onClose, onSave }) {
   useEffect(() => {
     const storedTime = localStorage.getItem("res_time");
     if (storedTime) {
-      setSummaryTime(`${storedTime}시`);
+      setSummaryTime(storedTime);
     }
   }, []);
+
+  const handleSave = async () => {
+    try {
+      const updatedUser = {
+        profile_img: avatar,
+        nickname,
+        res_time: parseInt(summaryTime, 10),
+      };
+
+      await updateUserInfo(updatedUser);
+
+      localStorage.setItem("profile_img", String(updatedUser.profile_img));
+      localStorage.setItem("nickname", updatedUser.nickname);
+      localStorage.setItem("res_time", String(updatedUser.res_time));
+
+      onSave(updatedUser);
+      onClose();
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+      alert("정보 저장에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
   return (
     <div className="modal_overlay" onClick={onClose}>
@@ -65,28 +89,17 @@ export default function UserInfoEditModal({ initialUser, onClose, onSave }) {
           >
             <option value="">요약 시간선택</option>
             {Array.from({ length: 24 }, (_, i) => {
-              const time = `${i.toString().padStart(2, "0")}시`;
+              const value = i.toString().padStart(2, "0");
               return (
-                <option key={time} value={time}>
-                  {time}
+                <option key={value} value={value}>
+                  {`${value}시`}
                 </option>
               );
             })}
           </select>
         </div>
 
-        <button
-          className="modal_btn"
-          type="button"
-          onClick={() => {
-            onSave({
-              profile_img: avatar,
-              nickname,
-              summary_time: summaryTime,
-            });
-            onClose();
-          }}
-        >
+        <button className="modal_btn" type="button" onClick={handleSave}>
           저장
         </button>
       </div>

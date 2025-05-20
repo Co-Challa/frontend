@@ -59,10 +59,16 @@
   align-items: center;
   color: #7C7C7F;
   font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .mypage_logout .arrow {
   width: 15px;
   height: 15px;
   margin-left: 5px;
+}
+
+.mypage_logout:hover {
+  background-color: #e0e0e0;
+  color: #4f4f4f;
 }
