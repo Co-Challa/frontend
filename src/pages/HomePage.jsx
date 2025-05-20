@@ -10,7 +10,7 @@ export default function HomePage() {
 
   useEffect(() => {
   const fetchPosts = async () => {
-    try {const res = await axios.get("http://localhost:8080/api/posts");
+    try {const res = await axios.get("http://localhost:8080/post/list");
     setPosts(res.data);
     } catch (error) {
       console.error("게시글 불러오기 실패",error)
@@ -21,8 +21,8 @@ export default function HomePage() {
 }, []);
 
   return (
-    <div className="p-6 space-y-4">
-      <h2 className="text-xl font-bold">📌 최신 게시글</h2>
+    <div className="new_posts">
+      <h2 className="newpost_title">📌 최신 게시글</h2>
       {posts.map((post) => (
         <MainPost key={post.id} post={post} />
       ))}
