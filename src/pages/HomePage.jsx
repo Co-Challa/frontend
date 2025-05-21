@@ -3,6 +3,7 @@ import axios from "axios";
 import MainPost from "../components/MainPost";
 import axiosInstance from "../apis/instance";
 
+
 export default function HomePage() {
   const [posts, setPosts] = useState([]);    // 게시글 목록
   const [page, setPage] = useState(0);       // 현재 페이지 번호

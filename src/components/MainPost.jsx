@@ -1,7 +1,13 @@
 import React from "react";
-
+import axios from "axios";
+import { useState } from 'react';
 import "./mainPage.css";
 import { useNavigate } from "react-router-dom";
+import likedHeart from "../assets/icons/likedheart.png";
+import unlikedHeart from "../assets/icons/heart.png";
+import axiosInstance from "../apis/instance";
+import {updatePublicState} from "../apis"
+
 
 
 export default function MainPost({ post }) {
@@ -14,7 +20,8 @@ export default function MainPost({ post }) {
     profile_img_code: profileImgCode,
     created_at: createdAt,
     post_id: postId,
-    likesCount,
+    likesCount: initialLikesCount,
+    liked: initialLiked = false, // ← 백엔드에서 넘겨줄 수 있음
     commentsCount,
   } = post;
 
@@ -25,7 +32,6 @@ export default function MainPost({ post }) {
   const handleClick = () => {
     navigate(`/post/${postId}`);
   };
-  console.log(post);
 
   const profileImages = import.meta.glob('../assets/images/profile/*.png', {
     eager: true,
@@ -34,6 +40,16 @@ export default function MainPost({ post }) {
 
   const imgSrc = profileImages[`../assets/images/profile/profile_${profileImgCode}.png`];
 
+  const [likesCount, setLikesCount] = useState(initialLikesCount);
+  const [liked, setLiked] = useState(initialLiked);
+
+  // ❤️ 좋아요 누르면 실행
+  const handleLikeClick = async (e) => {
+    e.stopPropagation(); // 게시글 상세 페이지로 이동 막기
+    const nextLiked = !liked;
+
+    updatePublicState
+  };
 
 
 
@@ -67,12 +83,24 @@ export default function MainPost({ post }) {
       <div className="post_contnet">{content}</div>
 
       {/* 좋아요와 댓글 */}
-
-
-
-      {/* 댓글 아이콘 */}
       <div className="icon_group">
-        <div className="comments_icon"></div>
+        <div
+          className="like_button"
+          onClick={handleLikeClick}
+          style={{
+            backgroundImage: `url(${liked ? likedHeart : unlikedHeart})`,
+            width: "24px",
+            height: "24px",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            cursor: "pointer",
+            display: "inline-block"
+          }}
+        />
+        <span>{likesCount}</span>
+
+        <div className="comments_icon" />
         <span>{commentsCount}</span>
       </div>
     </div>

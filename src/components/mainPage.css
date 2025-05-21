@@ -78,6 +78,7 @@
   white-space: normal;
   overflow: hidden;                 /* 넘치는 내용 숨기기 */
   text-overflow: ellipsis;         /* 생략 (...) 처리 */
+  margin-bottom: 20px;
 }
 
 /* 좋아요와 댓글 아이콘 스타일 */
@@ -86,6 +87,7 @@
   align-items: center;
   gap: 16px;
   margin-top: 8px;
+  margin-bottom: 20px;
 }
 
 .icon_group {
@@ -95,14 +97,7 @@
   cursor: pointer;
 }
 
-.like_button,
-.comments_icon {
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+
 
 .like_button.liked {
   background-image: url("/icons/likedheart.png");
