@@ -11,7 +11,8 @@ export default function PostPage() {
   const { postId } = useParams();
 
   const navigate = useNavigate();
-  const inputCommentRef = useRef("");
+  const inputCommentRef = useRef("");  
+  const [commentRefreshTrigger, setCommentRefreshTrigger] = useState(0);
 
   const [post, setPost] = useState(null);
   const [publicState, setPublicState] = useState(false);
@@ -46,6 +47,8 @@ export default function PostPage() {
 
   const handleTogglePublic = () => {
     try {
+      if (!postId)  throw new Error("postId is NULL");
+
       if (!checkOwner(post?.userId)) {
         alert("게시물 소유자만 공개 상태를 변경할 수 있습니다.");
         return;
@@ -66,6 +69,8 @@ export default function PostPage() {
 
   const handleToggleLike = async () => {
     try {
+      if (!postId)  throw new Error("postId is NULL");
+
       if (getLoggedInUserId() == null) {
         if (confirm("로그인하시겠습니까?"))
           navigate('/login');
@@ -89,7 +94,7 @@ export default function PostPage() {
     }
   }
 
-  const handleCreateComment = () => {
+  const handleCreateComment = async () => {
     try {
       if (getLoggedInUserId() == null) {
         if (confirm("로그인하시겠습니까?"))
@@ -108,9 +113,11 @@ export default function PostPage() {
         return;
       }
 
-      createComment(postId, commentContent);
+      const commentCount = await createComment(postId, commentContent);
 
-      setCommentCount(prevCount => prevCount + 1);
+      setCommentRefreshTrigger(prev => prev + 1);
+
+      setCommentCount(commentCount);
 
       if (inputCommentRef.current) {
         inputCommentRef.current.value = '';
@@ -120,10 +127,6 @@ export default function PostPage() {
       alert('댓글 작성에 실패했습니다. 다시 시도해주세요.');
     }
   }
-
-  const decreaseCommentCount = () => {
-    setCommentCount(prevCount => Math.max(0, prevCount - 1));
-  };
 
   return (
     post === null ?
@@ -182,7 +185,8 @@ export default function PostPage() {
 
           <Comment
             postId={postId}
-            onDeleteComment={decreaseCommentCount}
+            setCommentCount={setCommentCount}
+            commentRefreshTrigger={commentRefreshTrigger}
           />
         </>
       )

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 
 import { checkOwner } from "/src/utils/checkUser.js";
 import { fetchComments, deleteComment } from "/src/apis/postApi.js";
@@ -6,9 +6,32 @@ import { fetchComments, deleteComment } from "/src/apis/postApi.js";
 import useInfiniteList from '/src/hooks/userInfiniteList.js';
 import "./comment.css";
 
-export default function Comment({ postId, onDeleteComment }) {
+export default function Comment({ postId, setCommentCount, commentRefreshTrigger }) {
+  const isInit = useRef(true);
 
-  const handleDeleteComment = (commentInfo) => {
+  const commentsFetcher = useCallback(async (offset, limit) => {
+    return fetchComments(postId, offset, limit);
+  }, []);
+
+  const {
+    items: comments,
+    hasMore,
+    loading,
+    lastRef,
+    resetList
+  } = useInfiniteList(commentsFetcher, 10);
+
+  useEffect(() => {
+    // useInfiniteList 와의 중복 조회 방지
+    if (isInit.current) {
+      isInit.current  = false;
+      return;
+    }
+
+    resetList();
+  }, [commentRefreshTrigger])
+
+  const handleDeleteComment = async (commentInfo) => {
     try {
       if (!commentInfo.commentId)  throw new Error("commentId is NULL");
 
@@ -17,28 +40,20 @@ export default function Comment({ postId, onDeleteComment }) {
         return;
       }
 
-      deleteComment(commentInfo.commentId);
+      const commentCount = await deleteComment(commentInfo.commentId);
 
-      if (onDeleteComment) {
-        onDeleteComment();
+      if (setCommentCount) {
+        setCommentCount(commentCount);
       }
 
-      setComments(prev => prev.filter(comment => comment.commentId !== commentInfo.commentId));
+      resetList();
+
     } catch (error) {
       console.error('Delete Comment Error : ', error); 
+
+      alert('댓글 삭제에 실패했습니다. 다시 시도해주세요.');
     }
   }
-
-  const commentsFetcher = useCallback(async (offset, limit) => {
-    return fetchComments(postId, offset, limit);
-  }, [postId]);
-
-  const {
-    items: comments,
-    hasMore,
-    loading,
-    lastRef
-  } = useInfiniteList(commentsFetcher, 10);
 
   return (
     <>

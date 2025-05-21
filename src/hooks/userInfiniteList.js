@@ -24,6 +24,15 @@ export default function useInfiniteList(fetchFn, limit = 10) {
         }
     }, [fetchFn, hasMore, limit]);
 
+    const resetList = useCallback(() => {
+        setItems([]);
+        setHasMore(true);
+        setLoading(false);
+        offsetRef.current = 0;
+        loadingRef.current = false;
+        loadMore();
+    }, [loadMore]);
+
     // initial load
     useEffect(() => { loadMore() }, [loadMore]);
 
@@ -37,5 +46,5 @@ export default function useInfiniteList(fetchFn, limit = 10) {
         if (node) observer.current.observe(node);
     }, [loadMore]);
 
-    return { items, hasMore, loading, lastRef };
+    return { items, hasMore, loading, lastRef, resetList };
 }
