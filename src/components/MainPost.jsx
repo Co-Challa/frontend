@@ -12,13 +12,13 @@ import profile6 from "../assets/images/profile/profile_6.png";
 export default function MainPost({ post }) {
   const navigate = useNavigate();
   const {
-    postId,
     title,
     content,
     userId,
     nickname,
-    profileImgCode,
-    createdAt,
+    profile_img_code: profileImgCode,
+    created_at: createdAt,
+    post_id: postId,
     likesCount,
     commentsCount,
   } = post;
@@ -30,17 +30,18 @@ export default function MainPost({ post }) {
   const handleClick = () => {
     navigate(`/post/${postId}`);
   };
+  console.log(post);
 
-const profileMap = {
-  1: profile1,
-  2: profile2,
-  3: profile3,
-  4: profile4,
-  5: profile5,
-  6: profile6
-};
+  const profileMap = {
+    1: profile1,
+    2: profile2,
+    3: profile3,
+    4: profile4,
+    5: profile5,
+    6: profile6
+  };
 
-const imgSrc = profileMap[profileImgCode];
+  const imgSrc = profileMap[profileImgCode];
 
   return (
     <div
@@ -54,13 +55,13 @@ const imgSrc = profileMap[profileImgCode];
         <img
           src={imgSrc} alt="프로필 이미지"
           className="user_image" />
-               <div className="nickname_time">
+        <div className="nickname_time">
           <div className="user_nickname">
             <span className="prefix">post by </span>
             <span className="nickname">{nickname}</span>
             <span className="dot">·</span>
             <span className="created_At">
-             {formattedDate}
+              {formattedDate}
             </span>
           </div>
         </div>
