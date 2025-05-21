@@ -1,6 +1,6 @@
 import React from "react";
 // "1일전"처럼 보여주는 도구 
-import { formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 //한국어 날짜 표기
 import ko from "date-fns/locale/ko";
 
@@ -18,14 +18,11 @@ export default function MainPost({ post }) {
         <div className="nickname_time">
           <div className="user_nickname">
             <span className="prefix">post by </span>
-            <span className="nickname">{nickname}</span>
-          </div>
-          <div className="created_At">
-            {formatDistanceToNow(new Date(createdAt), {
-              addSuffix: true,
-              locale: ko,
-            })}
-          </div>
+            <span className="nickname">{ nickname}</span>
+            <span className="created_At">
+              {format(new Date(createdAt), "yyyy-MM-dd")}
+            </span>          
+            </div>
         </div>
       </div>
 

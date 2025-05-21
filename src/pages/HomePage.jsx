@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./homePage.css";
-import MainPost from "../components/MainPost";
+import MainPost from "../components/common/MainPost";
 
 export default function HomePage() {
   const[posts,setPosts] = useState([]);
