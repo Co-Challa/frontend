@@ -97,8 +97,6 @@
   cursor: pointer;
 }
 
-
-
 .like_button.liked {
   background-image: url("/icons/likedheart.png");
 }

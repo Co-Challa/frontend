@@ -5,8 +5,9 @@ import "./mainPage.css";
 import { useNavigate } from "react-router-dom";
 import likedHeart from "../assets/icons/likedheart.png";
 import unlikedHeart from "../assets/icons/heart.png";
+import comments_icon from "../assets/icons/message.png";
 import axiosInstance from "../apis/instance";
-import {updatePublicState} from "../apis"
+import {togglePostLike} from "../apis/userApi.js";
 
 
 
@@ -20,9 +21,9 @@ export default function MainPost({ post }) {
     profile_img_code: profileImgCode,
     created_at: createdAt,
     post_id: postId,
-    likesCount: initialLikesCount,
-    liked: initialLiked = false, // ← 백엔드에서 넘겨줄 수 있음
-    commentsCount,
+    likes_count: initialLikesCount,
+    liked, // ← 백엔드에서 넘겨줄 수 있음
+    comments_count,
   } = post;
 
   const formattedDate = createdAt
@@ -41,24 +42,28 @@ export default function MainPost({ post }) {
   const imgSrc = profileImages[`../assets/images/profile/profile_${profileImgCode}.png`];
 
   const [likesCount, setLikesCount] = useState(initialLikesCount);
-  const [liked, setLiked] = useState(initialLiked);
+  const [likedState, setLikedState] = useState(liked);
+  console.log(likesCount);
 
   // ❤️ 좋아요 누르면 실행
-  const handleLikeClick = async (e) => {
-    e.stopPropagation(); // 게시글 상세 페이지로 이동 막기
-    const nextLiked = !liked;
-
-    updatePublicState
-  };
-
-
+   const handleLike = async () => {
+      const next = !likedState;
+      setLikedState(next);
+      setLikesCount((prev) => prev + (next ? 1 : -1));
+  
+      try {
+        await togglePostLike(postId, next);
+      } catch (error) {
+        console.error("좋아요 토글 실패:", error);
+        setLikedState(!next);
+        setLikesCount((prev) => prev - (next ? 1 : -1));
+      }
+    };
 
   return (
     <div
       className="summary_post"
-      onClick={handleClick}
-      style={{ cursor: "pointer" }}
-    >
+      style={{ cursor: "pointer" }}>
 
       {/* 프로필 */}
       <div className="profile">
@@ -80,15 +85,15 @@ export default function MainPost({ post }) {
       <div className="post_title">{title}</div>
 
       {/* 게시글 요약 */}
-      <div className="post_contnet">{content}</div>
+      <div className="post_contnet" onClick={handleClick} >{content}</div>
 
       {/* 좋아요와 댓글 */}
       <div className="icon_group">
         <div
           className="like_button"
-          onClick={handleLikeClick}
+          onClick={handleLike}
           style={{
-            backgroundImage: `url(${liked ? likedHeart : unlikedHeart})`,
+            backgroundImage: `url(${likedState ? likedHeart : unlikedHeart})`,
             width: "24px",
             height: "24px",
             backgroundSize: "cover",
@@ -100,8 +105,17 @@ export default function MainPost({ post }) {
         />
         <span>{likesCount}</span>
 
-        <div className="comments_icon" />
-        <span>{commentsCount}</span>
+        <div style={{
+          backgroundImage: `url(${comments_icon})`,
+          width: "24px",
+          height: "24px",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          cursor: "pointer",
+          display: "inline-block"
+        }} />
+        <span>{comments_count}</span>
       </div>
     </div>
 
