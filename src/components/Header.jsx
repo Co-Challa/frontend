@@ -1,44 +1,27 @@
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+
+import { getLoggedInUserId } from "/src/utils/checkUser.js";
+
 import "./header.css";
 
 export default function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkLoggedIn = () => { 
-    const token = localStorage.getItem('authToken');
-
-    if (!token) return false;
-
-    try {
-      const decodedToken = jwtDecode(token);
-      const currentTime = Math.floor(Date.now() / 1000); // 현재 시간을 초 단위로
-
-      // 토큰의 만료 시간 확인
-      if (decodedToken.exp && decodedToken.exp > currentTime) {
-        return true;
-      }
-      // 토큰이 만료되었으면 삭제 
-      else {
-        clearAuthToken();
-        return false;
-      }
-    } catch (error) {
-      console.error('Decoding Error : ', error);
-      clearAuthToken();
-      return false;
-    }
-  };
+  useEffect(() => {
+    if (getLoggedInUserId() != null)
+      setIsLoggedIn(true);
+  }, []);
 
   return (
     <>
       <header className="header_wrapper">
         <div className="header_frame" />
-
         <div className="header_frame_shadow" />
-
         <div className="header_content_frame">
           <Link to="/">
             <div className="cochalla_frame">
-              <img className="cochalla_logo" src="src\assets\logo\logo.png" />
+              <img className="cochalla_logo" src="/src/assets/logo/logo.png" alt="Cochalla Logo" />
               <span className="cochalla_text">Cochalla</span>
             </div>
           </Link>
@@ -47,27 +30,26 @@ export default function Header() {
             <Link to="/chat">
               <div className="question_box">
                 <span className="question_text">질문하기</span>
-                <img className="question_icon" src="src\assets\icons\stars.png" />
+                <img className="question_icon" src="/src/assets/icons/stars.png" alt="Stars Icon" />
               </div>
             </Link>
-            {
-              checkLoggedIn() ? (
+            {isLoggedIn ? (
+              <>
                 <Link to="/mypage">
                   <div>
-                    <img className="user_img" src="src\assets\images\profile\profile_1.png" />
+                    <img className="user_img" src="/src/assets/images/profile/profile_1.png" alt="User Profile" />
                   </div>
                 </Link>
-              ) : (
-                <Link to="/login">
-                  <div>
-                    <span className="login">로그인</span>
-                  </div>
-                </Link>
-              )
-            }
+              </>
+            ) : (
+              <Link to="/login">
+                <div>
+                  <span className="login">로그인</span>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
-
       </header>
     </>
   );

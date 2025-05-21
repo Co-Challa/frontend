@@ -1,0 +1,83 @@
+/* Comment List Container */
+.comment_list {
+    margin-top: 20px; /* Space above the comment list */
+}
+
+/* Individual Comment Item */
+.comment_item {
+    padding: 20px;
+    border-top: 1px solid #F0F0F0; /* Light separator line between comments */
+}
+
+.comment_item:first-child {
+    border-top: none; /* No top border for the very first comment */
+}
+
+.comment_meta {
+    display: flex;
+    align-items: center; /* Vertically align avatar, author, and delete button */
+    /* Removed justify-content: space-between; as we'll use auto-margins or flex-grow for spacing */
+    /*margin-bottom: 8px; /* Space between meta line and comment content */
+}
+
+.user_avatar {
+    width: 32px; /* Size of the circular user avatar */
+    height: 32px;
+    border-radius: 50%; /* Make it perfectly circular */
+    object-fit: cover; /* Ensure image covers the area without distortion */
+    margin-right: 8px; /* Space between avatar and author name */
+    border: 1px solid #EBEBEA; /* Optional: subtle border around avatar */
+}
+
+.comment_author {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 600; /* Bold for the author name */
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+    /* To push the delete button to the right, we can use flex-grow or auto-margin here */
+    flex-grow: 1; /* Allows author text to take available space */
+}
+
+.delete_comment_button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.6; /* Slightly faded initially */
+    transition: opacity 0.2s ease;
+    margin-left: auto; /* Pushes the delete button to the far right */
+}
+
+.delete_comment_button:hover {
+    opacity: 1; /* Full opacity on hover */
+}
+
+.delete_icon {
+    width: 20px; /* Size of the trash icon */
+    height: 20px;
+    vertical-align: middle; /* Align with text baseline */
+}
+
+.comment_content {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    color: #555555;
+    margin-bottom: 8px; /* Space between content and date */
+    /* Add padding-left to align with the text if the avatar is meant to be in a separate column */
+    padding-left: 40px; /* (Avatar width + margin-right of avatar) to align content with text */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.comment_date {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #A0A0A0; /* Lighter color for the date */
+    /* Add padding-left to align with the text */
+    padding-left: 40px; /* (Avatar width + margin-right of avatar) to align date with text */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
