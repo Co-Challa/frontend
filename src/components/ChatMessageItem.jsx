@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { github } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
@@ -91,7 +91,7 @@ export default function ChatMessageItem({ role, content, timestamp }) {
                     </div>
                     <SyntaxHighlighter
                       language={match[1]}
-                      style={github}
+                      style={atomOneLight}
                       PreTag="div"
                       customStyle={{
                         margin: 0,
@@ -109,12 +109,12 @@ export default function ChatMessageItem({ role, content, timestamp }) {
               return (
                 <code
                   style={{
-                    backgroundColor: "#red",
-                    padding: "6px 8px",
+                    backgroundColor: "#f5f5f5",
+                    padding: "2px 6px",
                     borderRadius: "4px",
                     display: "inline-block",
-                    // lineHeight: "1.6", // improves vertical spacing
-                    margin: "2px 0", // adds some vertical margin
+                    color: "#cf0e0e",
+                    margin: "2px 0",
                   }}
                   {...props}
                 >
