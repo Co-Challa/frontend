@@ -58,7 +58,7 @@ export default function MyPage() {
 
       <section>
         {activeTab === "내 게시글" && (
-          <div className="userpost_list">
+          <div>
             {posts.map((post, i) =>
               i === posts.length - 1 ? (
                 <div key={post.post_id} ref={postsLastRef}>
@@ -79,7 +79,7 @@ export default function MyPage() {
         )}
 
         {activeTab === "관심 게시글" && (
-          <div className="userpost_list">
+          <div>
             {likedPosts.map((post, i) =>
               i === likedPosts.length - 1 ? (
                 <div key={post.post_id} ref={likedPostsLastRef}>
@@ -106,7 +106,7 @@ export default function MyPage() {
         )}
 
         {activeTab === "내 댓글" && (
-          <div className="usercomment_list">
+          <div>
             {comments.map((c, i) =>
               i === comments.length - 1 ? (
                 <div key={c.comment_id} ref={commentsLastRef}>
