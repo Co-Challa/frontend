@@ -1,48 +1,16 @@
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
-import { jwtDecode } from 'jwt-decode';
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+
+import { getLoggedInUserId } from "/src/utils/checkUser.js";
+
 import "./header.css";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate(); 
-
-  const clearAuthToken = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    navigate('/login');
-  };
-
-  const checkLoggedIn = () => {
-    const token = localStorage.getItem('token');
-
-    if (token === null) {
-      setIsLoggedIn(false);
-      return false;
-    }
-
-    try {
-      const decodedToken = jwtDecode(token);
-      const currentTime = Math.floor(Date.now() / 1000);
-
-      // Check token expiration
-      if (decodedToken.exp && decodedToken.exp > currentTime) {
-        setIsLoggedIn(true);
-        return true;
-      } else {
-        console.log('Token expired. Logging out.');
-        clearAuthToken();
-        return false;
-      }
-    } catch (error) {
-      console.error('Decoding Error : ', error);
-      clearAuthToken();
-      return false;
-    }
-  };
 
   useEffect(() => {
-    checkLoggedIn();
+    if (getLoggedInUserId() != null)
+      setIsLoggedIn(true);
   }, []);
 
   return (
