@@ -81,18 +81,22 @@
 }
 
 /* 좋아요와 댓글 아이콘 스타일 */
-.count_icon {
-    display: flex;
-    gap: 12px;
+.interaction_bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
 }
 
 .icon_group {
   display: flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
 }
 
-.likes, .comments {
+.like_button,
+.comments_icon {
   width: 20px;
   height: 20px;
   background-size: contain;
@@ -100,10 +104,13 @@
   background-position: center;
 }
 
-.likes {
-  background-image: url('../assets/icons/heart.png'); /* 경로 확인 필수! */
+.like_button.liked {
+  background-image: url("/icons/likedheart.png");
 }
 
-.comments {
-  background-image: url('../assets/icons/comment.png');
+.like_button.unliked {
+  background-image: url("/icons/heart.png");
+}
+.comments_icon {
+  background-image: url("/icons/message.png");
 }

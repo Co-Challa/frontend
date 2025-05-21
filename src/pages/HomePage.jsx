@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import "./homePage.css";
-import MainPost from "../components/common/MainPost";
+import MainPost from "../components/MainPost";
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);    // 게시글 목록
