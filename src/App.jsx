@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
 
-            <Route path="/post" element={<PostPage />} />
+            <Route path="/post/:postId" element={<PostPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/mypage" element={<MyPage />} />
           </Route>

@@ -1,11 +1,14 @@
-import { Link } from "react-router-dom";
-import React, { useRef, useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
+import { useRef, useState, useEffect, } from 'react';
 
-import axios from 'axios';
+import axiosInstance from '../apis/instance.js';
 import Comment from "../components/common/Comment";
 import "./postPage.css";
 
 export default function PostPage() {
+  const { postId } = useParams();
+  const navigate = useNavigate();
   const inputCommentRef = useRef("");
 
   const [post, setPost] = useState(null);
@@ -15,15 +18,20 @@ export default function PostPage() {
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
 
-  const reqGetPost = async (postId) => {
+  const clearAuthToken = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+
+  const reqGetPost = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/post/${postId}`);
+      const res = await axiosInstance.get(`http://localhost:8080/post/${postId}`);
       const data = res.data;
 
       console.log(data);
 
       setPost(data);
-
       setPublicState(data.isPublic);
       setLikeState(data.isLike);
       setLikeCount(data.likeCount);
@@ -36,104 +44,148 @@ export default function PostPage() {
 
   const reqUpdatePublicState = async (toggle) => {
     try {
-      const res = await axios.patch(`http://localhost:8080/post/${post.postId}`, {
-        isPublic: toggle
-      });
+      const token = localStorage.getItem('token');
+
+      if (!token) throw new Exception();
+
+      await axiosInstance.patch(`http://localhost:8080/post/${postId}`, 
+        {
+         isPublic: toggle
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
     } catch (error) {
       console.error("공개 상태 업데이트 실패:", error);
       setPublicState(!toggle);
+      alert('공개 상태 업데이트에 실패했습니다.');
     }
   };
 
   const reqUpdateLikeState = async (toggle) => {
     try {
-      const res = await axios.post(`http://localhost:8080/like/${post.postId}`, {
-        isLike: toggle
-      });
+      const token = localStorage.getItem('token');
+
+      if (!token) throw new Exception();
+
+      const res = await axiosInstance.post(`http://localhost:8080/like/${postId}`, 
+        {
+          isLike: toggle
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
 
       const data = res.data;
 
       setLikeCount(data);
-
     } catch (error) {
       console.error("좋아요 업데이트 실패:", error);
       setLikeState(!toggle);
+      alert('좋아요 업데이트에 실패했습니다. 다시 시도해주세요.');
     }
   }
 
-  const reqCreateComment = (content) => { 
-    try { 
-      const res = axios.post(`http://localhost:8080/comment/${post.postId}`, {
-        comment : content
-      });
+  const reqCreateComment = async (content) => { 
+    try {
+      const token = localStorage.getItem('token');
 
-      // (임시) Comment.jsx 리로딩 (웹소켓을 통해 실시간 업데이트)
-      // (임시) 웹소켓으로 실시간 동기화 or 페이지 재접속 or Comment 리로딩
+      if (!token) throw new Exception();
 
-      // 댓글 작성 성공 시 PostPage의 commentCount 증가
+      await axiosInstance.post(`http://localhost:8080/comment/${postId}`,
+        {
+          comment: content
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
       setCommentCount(prevCount => prevCount + 1);
-
-      // 입력 필드 초기화
       if (inputCommentRef.current) {
         inputCommentRef.current.value = '';
       }
-
     } catch (error) {
-      console.log(error);      
+      console.error("댓글 작성 실패:", error);
+      alert('댓글 작성에 실패했습니다. 다시 시도해주세요.');
     }
   }
 
   useEffect(() => {
-    reqGetPost(1);
-  }, []);
+    if (postId) {
+      reqGetPost();
+    }
+  }, [postId]); 
 
   const togglePublicState = () => {
-    const toggle = !publicState;
-    setPublicState(toggle);
+    if (!checkOwner(post?.userId)) { 
+        alert("게시물 소유자만 공개 상태를 변경할 수 있습니다.");
+        return;
+    }
 
+    const toggle = !publicState;
+    setPublicState(toggle); 
     reqUpdatePublicState(toggle);
   };
 
   const toggleLikeState = () => {
-    const toggle = !likeState;
-    setLikeState(toggle);
+    if (!checkLoggedIn()) {
+      if (confirm("로그인하시겠습니까?")) 
+        navigate('/login');
+        return; 
+    }
 
+    const toggle = !likeState;
+    setLikeState(toggle); 
     reqUpdateLikeState(toggle);
   }
 
-  const createComment = (comment) => {
-    if (!comment.trim()) {
+  const createCommentHandler = () => {
+    if (!checkLoggedIn()) {
+      if (confirm("로그인하시겠습니까?"))
+        navigate('/login');
+      return;
+    }
+
+    const commentContent = inputCommentRef.current.value;
+    if (!commentContent.trim()) {
       alert("댓글 내용을 입력해주세요.");
       return;
     }
+
     if (!post || !post.postId) {
       console.error("게시물 정보가 없거나 postId가 없습니다.");
       return;
     }
 
-    reqCreateComment(comment);
+    reqCreateComment(commentContent);
   }
 
   const decreaseCommentCount = () => {
-    // (임시) 웹소켓으로 실시간 동기화 or 페이지 재접속 or Comment 리로딩
-    setCommentCount(prevCount => Math.max(0, prevCount - 1)); // 0 미만으로 내려가지 않도록
+    setCommentCount(prevCount => Math.max(0, prevCount - 1));
   };
 
   const checkLoggedIn = () => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token'); 
 
     if (!token) return false;
 
     try {
       const decodedToken = jwtDecode(token);
-      const currentTime = Math.floor(Date.now() / 1000); // 현재 시간을 초 단위로
+      const currentTime = Math.floor(Date.now() / 1000);
 
-      // 토큰의 만료 시간 확인
       if (decodedToken.exp && decodedToken.exp > currentTime) {
         return true;
-      }
-      // 토큰이 만료되었으면 삭제 
-      else {
+      } else {
+        console.log('Token expired. Logging out.');
         clearAuthToken();
         return false;
       }
@@ -145,18 +197,17 @@ export default function PostPage() {
   };
 
   const getLoggedInUserId = () => {
-    return "test"; // for Testing
-
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        return decodedToken.userId;
+        return decodedToken.sub;
       } catch (error) {
         console.error('Decoding Error : ', error);
         return null;
       }
     }
+    return null;
   };
 
   const checkOwner = (authorId) => {
@@ -165,22 +216,22 @@ export default function PostPage() {
   };
 
   return (
-    post == null ?
-      null : (
+    post === null ?
+      <div className="loading_state">게시물을 불러오는 중입니다...</div> : ( 
         <>
           <div className="post_container">
             <div className="post_header">
               <h1 className="post_title">{post.title}</h1>
               <div className="profile_info_bar">
                 <div className="profile_details">
-                  <img className="profile_avatar" src="src\assets\images\profile\profile_1.png" alt="Profile Avatar" />
+                  <img className="profile_avatar" src={`/src/assets/images/profile/profile_${post.profileImg}.png`} alt="Profile Avatar" />
                   <span className="posted_by_text">Posted by <span className="author_name">{post.nickname}</span> · {new Date(post.createdAt).toLocaleString("ko-KR")}</span>
                 </div>
                 {
                   checkOwner(post.userId) ? (
                     <div className="actions_right">
                       <Link to="/chat">
-                        <img className="notification_icon" src="src\assets\icons\message-circle.png" alt="Notifications" />
+                        <img className="notification_icon" src="/src/assets/icons/message-circle.png" alt="Notifications" />
                       </Link>
                       <label className="toggle_switch">
                         <input type="checkbox" checked={publicState} onChange={togglePublicState} />
@@ -197,16 +248,16 @@ export default function PostPage() {
             </div>
 
             <div className="post_actions_summary">
-              <div className="action_item" onClick={checkLoggedIn() ? toggleLikeState : null}>
+              <div className="action_item" onClick={toggleLikeState}>
                 {
                   likeState ?
-                    (<img src="src\assets\icons\full_heart.png" alt="Likes" className="action_icon" />)
-                    : (<img src="src\assets\icons\empty_heart.png" alt="Likes" className="action_icon" />)
+                    (<img src="/src/assets/icons/full_heart.png" alt="Likes" className="action_icon" />) // Use imported image
+                    : (<img src="/src/assets/icons/empty_heart.png" alt="Likes" className="action_icon" />) // Use imported image
                 }
                 <span className="action_count">{likeCount}</span>
               </div>
               <div className="action_item">
-                <img src="src/assets/icons/message-circle.png" alt="Comments" className="action_icon" />
+                <img src="/src/assets/icons/message-circle.png" alt="Comments" className="action_icon" />
                 <span className="action_count">{commentCount}</span>
               </div>
             </div>
@@ -215,13 +266,13 @@ export default function PostPage() {
 
             <div className="comment_input_section">
               <textarea className="comment_textarea" placeholder="댓글을 작성하세요..." ref={inputCommentRef} />
-              <button className="submit_comment_button" onClick={() => createComment(inputCommentRef.current.value)}>댓글 작성</button>
+              <button className="submit_comment_button" onClick={createCommentHandler}>댓글 작성</button>
             </div>
           </div>
 
-          <Comment 
-            postId={post.postId} 
-            onDeleteComment={decreaseCommentCount} 
+          <Comment
+            postId={post.postId}
+            onDeleteComment={decreaseCommentCount}
           />
         </>
       )
