@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 export default function useInfiniteList(fetchFn, limit = 10) {
     const [items, setItems] = useState([]);
@@ -24,18 +24,27 @@ export default function useInfiniteList(fetchFn, limit = 10) {
         }
     }, [fetchFn, hasMore, limit]);
 
-    // initial load
-    useEffect(() => { loadMore() }, [loadMore]);
+    const reset = useCallback(() => {
+    setItems([]);
+    setHasMore(true);
+    offsetRef.current = 0;
+    loadingRef.current = false;
+}, []);
 
-    // intersection observer
     const observer = useRef();
-    const lastRef = useCallback(node => {
+    const lastRef = useCallback((node) => {
         if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) loadMore();
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                loadMore();
+            }
         });
         if (node) observer.current.observe(node);
     }, [loadMore]);
 
-    return { items, hasMore, loading, lastRef };
+    useEffect(() => {
+        if (items.length === 0) loadMore();
+    }, [items.length, loadMore]);
+
+    return { items, hasMore, loading, lastRef, reset };
 }

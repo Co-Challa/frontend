@@ -91,11 +91,11 @@
   transition: 0.4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #535FA5;
 }
 
-input:checked + .slider::before {
+input:checked+.slider::before {
   transform: translateX(18px);
 }
 
@@ -129,7 +129,10 @@ input:checked + .slider::before {
 }
 
 .with_profile .post_nickname {
-    color: #242524;
+  color: #242524;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
 }
 
 .error_card {
@@ -156,7 +159,7 @@ input:checked + .slider::before {
 }
 
 .retry_button {
-  background-color:#FF3B3C;
+  background-color: #FF3B3C;
   color: white;
   border: none;
   border-radius: 10px;
@@ -187,6 +190,7 @@ input:checked + .slider::before {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

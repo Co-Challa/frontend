@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./mypage.css";
 import useUserInfo from "../hooks/useUserInfo";
 import MyPageHeader from "../components/MypageHeader";
@@ -17,34 +17,26 @@ export default function MyPage() {
   const { user, loading, error, refetch } = useUserInfo();
   const [activeTab, setActiveTab] = useState("내 게시글");
   const tabs = ["내 게시글", "관심 게시글", "내 댓글"];
-  //localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5YXB5YXAiLCJpYXQiOjE3NDc3ODYwNDYsImV4cCI6MTc0Nzc4OTY0Nn0.uT2VSzIQkQiBTCpXPp2YY2nnhc1t10rhp-tTPcSpm6g');
 
-  const {
-    items: posts,
-    hasMore: postsHasMore,
-    loading: postsLoading,
-    lastRef: postsLastRef,
-  } = useInfiniteList(fetchUserPosts, 10);
+  const postList = useInfiniteList(fetchUserPosts, 10);
+  const likedList = useInfiniteList(fetchUserLiked, 10);
+  const commentList = useInfiniteList(fetchUserComments, 10);
 
-  const {
-    items: likedPosts,
-    hasMore: likedPostsHasMore,
-    loading: likedPostsLoading,
-    lastRef: likedPostsLastRef,
-  } = useInfiniteList(fetchUserLiked, 10);
+  const isInitialMount = useRef(true);
 
-  const {
-    items: comments,
-    hasMore: commentsHasMore,
-    loading: commentsLoading,
-    lastRef: commentsLastRef,
-  } = useInfiniteList(fetchUserComments, 10);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
 
-  const handleLogout = () => {
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("profile_img");
-    localStorage.removeItem("nickname");
-    localStorage.removeItem("res_time");
+    if (activeTab === "내 게시글") postList.reset();
+    if (activeTab === "관심 게시글") likedList.reset();
+    if (activeTab === "내 댓글") commentList.reset();
+  }, [activeTab]);
+
+  const handleCommentDelete = () => {
+    commentList.reset();
   };
 
   if (loading) return <div>로딩 중...</div>;
@@ -52,27 +44,23 @@ export default function MyPage() {
 
   return (
     <div className="mypage">
-      <MyPageHeader user={user} onLogout={handleLogout} onUpdate={refetch} />
-
+      <MyPageHeader user={user} onUpdate={refetch} />
       <MyPageNav tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
       <section>
         {activeTab === "내 게시글" && (
           <div>
-            {posts.map((post, i) =>
-              i === posts.length - 1 ? (
-                <div key={post.post_id} ref={postsLastRef}>
-                  <UserPostCard
-                    post={post}
-                    nickname={post.author_name}
-                  />
+            {postList.items.map((post, i) =>
+              i === postList.items.length - 1 ? (
+                <div key={post.post_id} ref={postList.lastRef}>
+                  <UserPostCard post={post} nickname={post.author_name} />
                 </div>
               ) : (
                 <UserPostCard key={post.post_id} post={post} />
               )
             )}
-            {postsLoading && <div className="loading">로딩 중...</div>}
-            {!postsHasMore && (
+            {postList.loading && <div className="loading">로딩 중...</div>}
+            {!postList.hasMore && (
               <div className="end">모든 게시물을 불러왔습니다</div>
             )}
           </div>
@@ -80,13 +68,14 @@ export default function MyPage() {
 
         {activeTab === "관심 게시글" && (
           <div>
-            {likedPosts.map((post, i) =>
-              i === likedPosts.length - 1 ? (
-                <div key={post.post_id} ref={likedPostsLastRef}>
+            {likedList.items.map((post, i) =>
+              i === likedList.items.length - 1 ? (
+                <div key={post.post_id} ref={likedList.lastRef}>
                   <UserPostCard
                     post={post}
                     showAuthor={true}
                     nickname={post.author_name}
+                    onLikeChange={likedList.reset}
                   />
                 </div>
               ) : (
@@ -95,11 +84,12 @@ export default function MyPage() {
                   post={post}
                   showAuthor={true}
                   nickname={post.author_name}
+                  onLikeChange={likedList.reset}
                 />
               )
             )}
-            {likedPostsLoading && <div className="loading">로딩 중...</div>}
-            {!likedPostsHasMore && (
+            {likedList.loading && <div className="loading">로딩 중...</div>}
+            {!likedList.hasMore && (
               <div className="end">모든 게시물을 불러왔습니다</div>
             )}
           </div>
@@ -107,17 +97,17 @@ export default function MyPage() {
 
         {activeTab === "내 댓글" && (
           <div>
-            {comments.map((c, i) =>
-              i === comments.length - 1 ? (
-                <div key={c.comment_id} ref={commentsLastRef}>
-                  <UserCommentCard comment={c} />
+            {commentList.items.map((c, i) =>
+              i === commentList.items.length - 1 ? (
+                <div key={c.comment_id} ref={commentList.lastRef}>
+                  <UserCommentCard comment={c} onDelete={handleCommentDelete} />
                 </div>
               ) : (
-                <UserCommentCard key={c.comment_id} comment={c} />
+                <UserCommentCard key={c.comment_id} comment={c} onDelete={handleCommentDelete} />
               )
             )}
-            {commentsLoading && <div className="loading">로딩 중…</div>}
-            {!commentsHasMore && (
+            {commentList.loading && <div className="loading">로딩 중…</div>}
+            {!commentList.hasMore && (
               <div className="end">모든 댓글을 불러왔습니다</div>
             )}
           </div>

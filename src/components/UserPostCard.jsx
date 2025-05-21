@@ -7,7 +7,7 @@ import messageIcon from "../assets/icons/message.png";
 import alertIcon from "../assets/icons/alert.png";
 import { updatePostVisibility, togglePostLike } from "../apis/userApi";
 
-export default function UserPostCard({ post }) {
+export default function UserPostCard({ post, onLikeChange }) {
   const {
     post_id,
     title,
@@ -64,6 +64,7 @@ export default function UserPostCard({ post }) {
 
     try {
       await togglePostLike(post_id, next);
+      if (onLikeChange) onLikeChange();
     } catch (error) {
       console.error("좋아요 토글 실패:", error);
       setLikedState(!next);
