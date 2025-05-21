@@ -1,0 +1,116 @@
+/* 헤더 만큼의 공백 */
+.new_posts {
+  padding-top: 80px;  /* header의 height(60px) + 여유공간 */
+}
+
+/* 게시글 목록 스타일 */
+.new_posts {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 게시글 요약 스타일 */
+.post_contnet {
+    font-size: 14px;
+    background-color: #ffffff;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;  /* 마우스 hover 시 부드럽게 전환 가능하게 설정 */
+}
+
+
+/* 제목 스타일 */
+.post_title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+/* 프로필 스타일 */
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.user_image {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #d3d3d3;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* 닉네임 스타일 */
+.user_nickname {
+    font-size: 12px;
+}
+.user_nickname .prefix {
+  color: #999; /* 부트스트랩 기준 연한 회색 */
+}
+
+.user_nickname .nickname {
+  color: #000000; /* 검정색 */
+  font-weight: 500; /* 선택사항: 닉네임 강조 */
+}
+/* 시간 스타일 */
+.created_At {
+    color: #999;
+    font-size: 12px;
+}
+.dot {
+  margin: 0 6px;      
+  color: #999;        
+  font-size: 12px;   
+}
+
+
+/* 게시글 요약 스타일 */
+.post_summary  {
+  display: -webkit-box;             /* 크롬, 사파리 등 웹킷 브라우저용 */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;            /* 웹킷 비표준 줄 제한 */
+
+  line-clamp: 5;                    /* (표준 속성, 일부 브라우저만 지원됨) */
+  white-space: normal;
+  overflow: hidden;                 /* 넘치는 내용 숨기기 */
+  text-overflow: ellipsis;         /* 생략 (...) 처리 */
+}
+
+/* 좋아요와 댓글 아이콘 스타일 */
+.interaction_bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.icon_group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.like_button,
+.comments_icon {
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.like_button.liked {
+  background-image: url("/icons/likedheart.png");
+}
+
+.like_button.unliked {
+  background-image: url("/icons/heart.png");
+}
+.comments_icon {
+  background-image: url("/icons/message.png");
+}
