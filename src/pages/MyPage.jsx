@@ -17,6 +17,7 @@ export default function MyPage() {
   const { user, loading, error, refetch } = useUserInfo();
   const [activeTab, setActiveTab] = useState("내 게시글");
   const tabs = ["내 게시글", "관심 게시글", "내 댓글"];
+  //localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5YXB5YXAiLCJpYXQiOjE3NDc3ODYwNDYsImV4cCI6MTc0Nzc4OTY0Nn0.uT2VSzIQkQiBTCpXPp2YY2nnhc1t10rhp-tTPcSpm6g');
 
   const {
     items: posts,

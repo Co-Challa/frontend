@@ -4,7 +4,8 @@ import "./UserPostCard.css";
 import heartIcon from "../assets/icons/heart.png";
 import likedHeartIcon from "../assets/icons/likedheart.png";
 import messageIcon from "../assets/icons/message.png";
-import { updatePostVisibility, togglePostLike  } from "../apis/userApi";
+import alertIcon from "../assets/icons/alert.png";
+import { updatePostVisibility, togglePostLike } from "../apis/userApi";
 
 export default function UserPostCard({ post }) {
   const {
@@ -30,13 +31,19 @@ export default function UserPostCard({ post }) {
   const [publicState, setPublicState] = useState(is_public);
   const [likedState, setLikedState] = useState(showAuthor ? true : liked);
   const [likeCount, setLikeCount] = useState(like_cnt);
+  const [isRetrying, setIsRetrying] = useState(false);
 
-  const formattedDate = new Date(created_at).toISOString().slice(0, 10);
+  const isEmpty = !title && !content;
+  const formattedDate = created_at
+    ? new Date(created_at).toISOString().slice(0, 10)
+    : "";
   const heartImg = likedState ? likedHeartIcon : heartIcon;
-  const avatarSrc = new URL(
-    `../assets/images/profile/profile_${author_profile_img}.png`,
-    import.meta.url
-  ).href;
+  const avatarSrc = author_profile_img
+    ? new URL(
+        `../assets/images/profile/profile_${author_profile_img}.png`,
+        import.meta.url
+      ).href
+    : "";
 
   const handleToggle = async () => {
     const next = !publicState;
@@ -63,6 +70,35 @@ export default function UserPostCard({ post }) {
       setLikeCount((prev) => prev - (next ? 1 : -1));
     }
   };
+
+  const handleRetry = () => {
+    setIsRetrying(true);
+    setTimeout(() => {
+      setIsRetrying(false);
+    }, 5000);
+  };
+
+  if (isEmpty) {
+    return isRetrying ? (
+      <div className="loading_card">
+        <div className="loading_state">
+          <span className="loading_icon">⟳</span>
+          <span className="loading_text">요약보고서 생성중...</span>
+        </div>
+      </div>
+    ) : (
+      <div className="error_card">
+        <span className="error_message">
+          <img src={alertIcon} alt="alert" className="error_icon" />
+          {formattedDate} 요약 생성 중 오류가 발생했어요. 재시도 버튼을 눌러
+          요약을 다시 요청해주세요.
+        </span>
+        <button className="retry_button" onClick={handleRetry}>
+          재시도
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="userpost_card">
