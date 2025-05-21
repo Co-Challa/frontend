@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
-import "./homePage.css";
 import MainPost from "../components/MainPost";
+import axiosInstance from "../apis/instance";
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);    // 게시글 목록
@@ -14,8 +14,9 @@ export default function HomePage() {
     if (!hasMore) return;
 
     try {
-      const res = await axios.get(`http://localhost:8080/post/list?page=${page}`);
+      const res = await axiosInstance.get(`/post/list?page=${page}`);
       const newPosts = res.data;
+      console.log("API response ▶", res.data);
 
       if (newPosts.length === 0) {
         setHasMore(false); // 더 이상 불러올 게시글 없음
@@ -43,10 +44,12 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, [fetchPosts]);
 
+  console.log(posts);
+
   return (
     <div className="new_posts">
       {posts.map((post) => (
-        <MainPost key={post.id} post={post} />
+        <MainPost key={post.post_id} post={post} />
       ))}
       <div ref={loader} style={{ height: "60px" }}></div> {/* 감지용 div */}
     </div>

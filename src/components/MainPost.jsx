@@ -1,33 +1,46 @@
 import React from "react";
-// "1일전"처럼 보여주는 도구 
-import { format } from "date-fns";
-//한국어 날짜 표기
-import ko from "date-fns/locale/ko";
+
+import "./mainPage.css";
 import { useNavigate } from "react-router-dom";
+import profile1 from "../assets/images/profile/profile_1.png";
+import profile2 from "../assets/images/profile/profile_2.png";
+import profile3 from "../assets/images/profile/profile_3.png";
+import profile4 from "../assets/images/profile/profile_4.png";
+import profile5 from "../assets/images/profile/profile_5.png";
+import profile6 from "../assets/images/profile/profile_6.png";
 
 export default function MainPost({ post }) {
   const navigate = useNavigate();
   const {
-    nickname,
+    postId,
     title,
-    createdAt,
     content,
+    userId,
+    nickname,
+    profileImgCode,
+    createdAt,
     likesCount,
     commentsCount,
-    id // 이게 있어야 `/post/${id}`로 이동 가능!
   } = post;
 
+  const formattedDate = createdAt
+    ? new Date(createdAt).toISOString().slice(0, 10)
+    : "";
+
   const handleClick = () => {
-    navigate(`/post/${post.id}`);
+    navigate(`/post/${postId}`);
   };
 
-  const getProfileImage = (code) => {
-    try {
-      return new URL(`../assets/images/profile/profile_${code}.png`, import.meta.url).href;
-    } catch {
-      return new URL(`../assets/images/profile/default.png`, import.meta.url).href;
-    }
-  };
+const profileMap = {
+  1: profile1,
+  2: profile2,
+  3: profile3,
+  4: profile4,
+  5: profile5,
+  6: profile6
+};
+
+const imgSrc = profileMap[profileImgCode];
 
   return (
     <div
@@ -39,16 +52,15 @@ export default function MainPost({ post }) {
       {/* 프로필 */}
       <div className="profile">
         <img
-          src={getProfileImage(user.profileImgCode)} // ✅ DB에서 받은 숫자 기반
-          alt="프로필 이미지"
-          className="user_image"
-        />        <div className="nickname_time">
+          src={imgSrc} alt="프로필 이미지"
+          className="user_image" />
+               <div className="nickname_time">
           <div className="user_nickname">
             <span className="prefix">post by </span>
             <span className="nickname">{nickname}</span>
             <span className="dot">·</span>
             <span className="created_At">
-              {format(new Date(createdAt), "yyyy-MM-dd")}
+             {formattedDate}
             </span>
           </div>
         </div>
@@ -62,8 +74,8 @@ export default function MainPost({ post }) {
       {/* 좋아요와 댓글 */}
       <div className="interaction_bar">
         {/*좋아요 버튼 */}
-        <div className="icon_group" onClick={toggleLike}>
-          <div className={`like_button ${liked ? "liked" : "unliked"}`}></div>
+        <div className="icon_group">
+          {/* <div className={`like_button ${liked ? "liked" : "unliked"}`}></div> */}
           <span>{likesCount}</span>
         </div>
 
