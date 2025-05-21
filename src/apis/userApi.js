@@ -1,7 +1,7 @@
 import axiosInstance from './instance';
 
 export async function fetchUserById() {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('토큰이 로컬스토리지에 없습니다.');
     }
@@ -13,7 +13,7 @@ export async function fetchUserById() {
 }
 
 export async function fetchUserPosts(offset, limit) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
@@ -25,7 +25,7 @@ export async function fetchUserPosts(offset, limit) {
 }
 
 export async function fetchUserLiked(offset, limit) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
@@ -37,7 +37,7 @@ export async function fetchUserLiked(offset, limit) {
 }
 
 export async function fetchUserComments(offset, limit) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
@@ -49,7 +49,7 @@ export async function fetchUserComments(offset, limit) {
 }
 
 export async function updateUserInfo(updatedInfo) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
@@ -62,7 +62,7 @@ export async function updateUserInfo(updatedInfo) {
 }
 
 export async function updatePostVisibility(postId, isPublic) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
@@ -77,7 +77,7 @@ export async function updatePostVisibility(postId, isPublic) {
 }
 
 export async function togglePostLike(postId, liked) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
@@ -92,7 +92,7 @@ export async function togglePostLike(postId, liked) {
 }
 
 export async function deleteComment(commentId) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
