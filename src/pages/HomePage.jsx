@@ -1,31 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import "./homePage.css";
 import MainPost from "../components/common/MainPost";
 
 export default function HomePage() {
-  const[posts,setPosts] = useState([]);
-  //posts : 현재 화면에 보여줄 게시글 목록을 담는 변수 
-  // setPosts : 값을 바꿀 때 쓰는 함수
-  //useState([]) : 초기값을 빈 배열로 설정했다는 뜻
+  const [posts, setPosts] = useState([]);    // 게시글 목록
+  const [page, setPage] = useState(0);       // 현재 페이지 번호
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 게시글 있는지 여부
+  const loader = useRef(null);               // 관찰할 div 요소 참조
 
-  useEffect(() => {
-  const fetchPosts = async () => {
-    try {const res = await axios.get("http://localhost:8080/post/list");
-    setPosts(res.data);
+  // 📌 게시글 가져오기
+  const fetchPosts = useCallback(async () => {
+    if (!hasMore) return;
+
+    try {
+      const res = await axios.get(`http://localhost:8080/post/list?page=${page}`);
+      const newPosts = res.data;
+
+      if (newPosts.length === 0) {
+        setHasMore(false); // 더 이상 불러올 게시글 없음
+      } else {
+        setPosts((prev) => [...prev, ...newPosts]); // 기존 글에 이어 붙이기
+        setPage((prev) => prev + 1); // 다음 페이지로 이동
+      }
     } catch (error) {
-      console.error("게시글 불러오기 실패",error)
+      console.error("게시글 불러오기 실패", error);
     }
-  };
+  }, [page, hasMore]);
 
-  fetchPosts();
-}, []);
+  // 📌 IntersectionObserver로 하단 감지
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchPosts();
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (loader.current) observer.observe(loader.current);
+    return () => observer.disconnect();
+  }, [fetchPosts]);
 
   return (
     <div className="new_posts">
       {posts.map((post) => (
         <MainPost key={post.id} post={post} />
       ))}
+      <div ref={loader} style={{ height: "60px" }}></div> {/* 감지용 div */}
     </div>
   );
 }

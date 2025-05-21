@@ -10,7 +10,7 @@
 }
 
 /* 게시글 요약 스타일 */
-.summary_post {
+.post_contnet {
     font-size: 14px;
     background-color: #ffffff;
     border: 2px solid #d3d3d3;
@@ -49,7 +49,7 @@
     font-size: 12px;
 }
 .user_nickname .prefix {
-  color: #6c757d; /* 부트스트랩 기준 연한 회색 */
+  color: #999; /* 부트스트랩 기준 연한 회색 */
 }
 
 .user_nickname .nickname {
@@ -58,9 +58,15 @@
 }
 /* 시간 스타일 */
 .created_At {
-    color: #6c757d;
+    color: #999;
     font-size: 12px;
 }
+.dot {
+  margin: 0 6px;      
+  color: #999;        
+  font-size: 12px;   
+}
+
 
 /* 게시글 요약 스타일 */
 .post_summary  {

@@ -3,33 +3,40 @@ import React from "react";
 import { format } from "date-fns";
 //한국어 날짜 표기
 import ko from "date-fns/locale/ko";
+import { useNavigate } from "react-router-dom";
 
 export default function MainPost({ post }) {
-  if (!post) return <div>게시글 정보 없음</div>;
+  const navigate = useNavigate();
 
-  const { userImage, nickname, title, createdAt, content, likesCount, commentsCount } = post;
-  const summary = content.split("\n").slice(0, 5).join("\n");
-
+  const handleClick = () => {
+    navigate(`/post/${post.id}`);
+  };
   return (
-    <div className="summary_post">
+    <div
+      className="summary_post"
+      onClick={handleClick}
+      style={{ cursor: "pointer" }}
+    >
+
       {/* 프로필 */}
       <div className="profile">
         <img src={userImage} alt="사용자 이미지" className="user_image" />
         <div className="nickname_time">
           <div className="user_nickname">
             <span className="prefix">post by </span>
-            <span className="nickname">{ nickname}</span>
+            <span className="nickname">{nickname}</span>
+            <span className="dot">·</span> 
             <span className="created_At">
               {format(new Date(createdAt), "yyyy-MM-dd")}
-            </span>          
-            </div>
+            </span>
+          </div>
         </div>
-      </div>
+     </div>
 
       <div className="post_title">{title}</div>
 
       {/* 게시글 요약 */}
-      <div className="post_summary">{summary}</div>
+      <div className="post_contnet">{content}</div>
 
       {/* 좋아요와 댓글 */}
       <div className="count_icon">
