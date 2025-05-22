@@ -5,10 +5,7 @@ import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 
-export default function ChatMessageItem({ role, content, timestamp }) {
-  // const data =
-  //   "JPA (Java Persistence API)는 자바 플랫폼에서 관계형 데이터베이스의 데이터를 관리하고 접근하는 방법을 정의한 API입니다. JPA를 사용하면 개발자는 데이터베이스 테이블을 직접 다루는 SQL을 작성하지 않고, 객체 지향적인 방식으로 데이터베이스를 다룰 수 있습니다. 이는 객체와 데이터베이스 테이블 간의 매핑을 자동화하여, 개발의 복잡성을 줄이고 생산성을 높일 수 있게 도와줍니다.\n\n## 예제 코드\n```java\n@Entity\npublic class User {\n    @Id\n    private Long id;\n    private String name;\n    private String email;\n}\n```\n위 예제에서 `@Entity`는 클래스가 데이터베이스의 엔티티임을 나타내고, `@Id`는 해당 필드가 데이터베이스의 기본 키(primary key) 역할을 한다는 것을 지정합니다.";
-
+export default function ChatMessageItem({ role, content }) {
   return (
     <div
       style={{
@@ -44,6 +41,9 @@ export default function ChatMessageItem({ role, content, timestamp }) {
                 }}
                 {...props}
               />
+            ),
+            strong: (props) => (
+              <strong style={{ fontWeight: "bold" }} {...props} />
             ),
             code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || "");
@@ -127,9 +127,9 @@ export default function ChatMessageItem({ role, content, timestamp }) {
           {content}
         </ReactMarkdown>
 
-        <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "4px" }}>
+        {/* <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "4px" }}>
           {new Date(timestamp).toLocaleTimeString()}
-        </div>
+        </div> */}
       </div>
     </div>
   );
