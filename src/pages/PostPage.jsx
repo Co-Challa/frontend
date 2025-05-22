@@ -5,7 +5,7 @@ import { getLoggedInUserId } from "/src/utils/checkUser.js";
 import { fetchPost } from "/src/apis/postApi";
 
 import PostHeader from "/src/components/PostHeader";
-import PostContent from "/src/components/postContent";
+import PostContent from "/src/components/PostContent";
 import PostFooter from "../components/PostFooter";
 
 import "./postPage.css";
