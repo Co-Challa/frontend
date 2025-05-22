@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 403) {
       localStorage.removeItem('token');
       const from = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = `/login?from=${from}`;
+      window.location.href = `/login`;
     }
     return Promise.reject(error);
   }
