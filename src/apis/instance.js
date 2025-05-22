@@ -21,16 +21,4 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 403) {
-      localStorage.removeItem('token');
-      const from = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = `/login`;
-    }
-    return Promise.reject(error);
-  }
-);
-
 export default axiosInstance;
