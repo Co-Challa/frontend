@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import { useRef, useState, useEffect } from 'react';
 
 import { getLoggedInUserId } from "/src/utils/checkUser.js";
 import { fetchPost } from "/src/apis/postApi";
@@ -19,20 +19,14 @@ export default function PostPage() {
       try {
         if (postId != null) {
           const userId = getLoggedInUserId();
-          
           const data = await fetchPost(postId, userId);
-
-          console.log(data);
-          
           setPost(data);
         }
       } catch (error) {
         console.log(error);
       }
-    }
-
+    };
     initPost();
-
   }, [postId]);
 
   return (

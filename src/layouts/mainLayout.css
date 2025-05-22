@@ -1,8 +1,6 @@
 .main_layout_wrapper {
   max-width: 950px;
   margin: 0 auto;
-  border-right: 1px solid gray;
-  border-left: 1px solid gray;
   /* padding: 20px; */
   background-color: white;
   min-height: 100vh;
