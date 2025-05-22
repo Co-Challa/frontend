@@ -45,6 +45,8 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, [fetchPosts]);
 
+  
+
   console.log(posts);
 
   return (
