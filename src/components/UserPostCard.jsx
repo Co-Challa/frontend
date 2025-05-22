@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import "./UserPostCard.css";
 import heartIcon from "../assets/icons/heart.png";
 import likedHeartIcon from "../assets/icons/likedheart.png";
@@ -117,7 +118,9 @@ export default function UserPostCard({ post, onLikeChange }) {
         )}
         <h3 className="userpost_card_title">{title}</h3>
       </div>
-      <p className="userpost_card_content">{content}</p>
+      <div className="userpost_card_content">
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </div>
       <div className="userpost_card_footer">
         <div className="userpost_card_stats">
           <span
