@@ -1,7 +1,7 @@
 import axiosInstance from "./instance";
 
 export async function fetchPost(postId, userId) {
-    const res = await axiosInstance.get(`http://localhost:8080/post/${postId}`,
+    const res = await axiosInstance.get(`/post/${postId}`,
         {
             params: { userId: userId }
         }
@@ -11,15 +11,16 @@ export async function fetchPost(postId, userId) {
 }
 
 export async function updatePublicState(postId, isPublic) {
-    const res = await axiosInstance.patch(`http://localhost:8080/post/${postId}`,
+    const res = await axiosInstance.patch(`/post/${postId}`,
         {
             isPublic: isPublic
         }
     );
+    
 }
 
 export async function updateLikeState(postId, isLike) {
-    const res = await axiosInstance.post(`http://localhost:8080/like/${postId}`,
+    const res = await axiosInstance.post(`/like/${postId}`,
         {
             isLike: isLike
         }
@@ -29,7 +30,7 @@ export async function updateLikeState(postId, isLike) {
 }
 
 export async function fetchComments(postId, offset, limit) {
-    const res = await axiosInstance.get(`http://localhost:8080/comment/list`, {
+    const res = await axiosInstance.get(`/comment/list`, {
         params: { postId, offset, limit },
     });
 
@@ -38,7 +39,7 @@ export async function fetchComments(postId, offset, limit) {
 
 export async function createComment(postId, content) {
 
-    const res = await axiosInstance.post(`http://localhost:8080/comment/${postId}`,
+    const res = await axiosInstance.post(`/comment/${postId}`,
         {
             comment: content
         }
@@ -49,7 +50,7 @@ export async function createComment(postId, content) {
 
 export async function deleteComment(commentId) {
 
-    const res = await axiosInstance.delete(`http://localhost:8080/comment/${commentId}`);
+    const res = await axiosInstance.delete(`/comment/${commentId}`);
 
     return res.data;
 }

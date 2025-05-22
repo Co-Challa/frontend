@@ -1,0 +1,38 @@
+/* PostActionItem.css */
+
+/* Post Actions Summary (Likes and Comments) */
+.post_actions_summary {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between like and comment sections */
+    padding: 20px 0;
+    border-bottom: 1px solid #EBEBEA; /* Separator line below actions */
+    margin-bottom: 20px; /* Space between this section and comments heading */
+}
+
+.action_item {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and count */
+    cursor: pointer;
+}
+
+/* Hide default HTML checkbox (if used inside action_item, but usually not) */
+.action_item input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.action_icon {
+    width: 20px; /* Size of heart and comment icons */
+    height: 20px; /* You might want to style these as SVGs or mask images if they need specific colors */
+}
+
+.action_count {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #8C8C8C; /* Grey color for counts */
+    font-weight: 500;
+}
