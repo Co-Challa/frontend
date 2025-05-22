@@ -1,0 +1,72 @@
+/* CommentItem.css (또는 Comment.css) */
+
+.comment_item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+    border-bottom: 1px solid #F0F0F0; /* Subtle separator between comments */
+}
+
+.comment_item:last-child {
+    border-bottom: none; /* No border for the last comment */
+}
+
+.comment_meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.user_avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment_author {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333333;
+}
+
+.delete_comment_button {
+    margin-left: auto; /* Push to the right */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete_comment_button img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.delete_comment_button:hover img {
+    opacity: 1;
+}
+
+.comment_content {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    color: #333333;
+    margin-bottom: 5px;
+    word-break: break-word; /* Prevents long words from overflowing */
+}
+
+.comment_date {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B0B0B0;
+    text-align: right; /* Align date to the right */
+}
