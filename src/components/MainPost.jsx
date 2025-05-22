@@ -6,6 +6,8 @@ import unlikedHeart from "../assets/icons/heart.png";
 import comments_icon from "../assets/icons/message.png";
 import { togglePostLike } from "../apis/userApi.js";
 import ReactMarkdown from "react-markdown";
+import { getLoggedInUserId } from "/src/utils/checkUser.js";
+
 
 export default function MainPost({ post }) {
   const navigate = useNavigate();
@@ -44,6 +46,11 @@ export default function MainPost({ post }) {
     setLikedState(next);
     setLikesCount(prev => prev + (next ? 1 : -1));
     try {
+      if (getLoggedInUserId() == null) {
+        if (confirm("로그인하시겠습니까?"))
+          navigate('/login');
+        return;
+      }
       await togglePostLike(postId, next);
     } catch (error) {
       console.error("좋아요 토글 실패:", error);
