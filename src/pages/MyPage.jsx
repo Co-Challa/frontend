@@ -21,7 +21,6 @@ export default function MyPage() {
   const postList = useInfiniteList(fetchUserPosts, 10);
   const likedList = useInfiniteList(fetchUserLiked, 10);
   const commentList = useInfiniteList(fetchUserComments, 10);
-
   const isInitialMount = useRef(true);
 
   useEffect(() => {

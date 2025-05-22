@@ -24,10 +24,11 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // // 예: 401이면 로그인 페이지로 이동
-    // if (error.response?.status === 401) {
-    //   window.location.href = "/login";
-    // }
+    if (error.response?.status === 403) {
+      localStorage.removeItem('token');
+      const from = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = `/login?from=${from}`;
+    }
     return Promise.reject(error);
   }
 );
