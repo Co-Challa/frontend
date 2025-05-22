@@ -114,11 +114,11 @@
   cursor: pointer;
 }
 
-.like_button.liked {
+.like_button.likedHeart {
   background-image: url("/icons/likedheart.png");
 }
 
-.like_button.unliked {
+.like_button.unlikedHeart {
   background-image: url("/icons/heart.png");
 }
 .comments_icon {
