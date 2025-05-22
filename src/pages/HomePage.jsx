@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import axios from "axios";
 import MainPost from "../components/MainPost";
 import axiosInstance from "../apis/instance";
 
-
 export default function HomePage() {
-  const [posts, setPosts] = useState([]);    // 게시글 목록
-  const [page, setPage] = useState(0);       // 현재 페이지 번호
+  const [posts, setPosts] = useState([]); // 게시글 목록
+  const [page, setPage] = useState(0); // 현재 페이지 번호
   const [hasMore, setHasMore] = useState(true); // 더 불러올 게시글 있는지 여부
-  const loader = useRef(null);               // 관찰할 div 요소 참조
+  const loader = useRef(null); // 관찰할 div 요소 참조
 
   // 📌 게시글 가져오기
   const fetchPosts = useCallback(async () => {
