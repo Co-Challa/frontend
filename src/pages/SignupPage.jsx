@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../apis/instance";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignupPage.css";
@@ -46,7 +46,7 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/signup", form);
+      await axiosInstance.post("/signup", form);
       alert("회원가입 성공");
       navigate("/login");
     } catch (err) {
