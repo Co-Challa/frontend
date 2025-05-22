@@ -13,8 +13,8 @@ export default function MyPageHeader({ user, onUpdate }) {
   ).href;
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    window.location.href = "/signin";
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
   return (
