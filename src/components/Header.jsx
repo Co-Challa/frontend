@@ -46,7 +46,7 @@ export default function Header() {
                   <div>
                     <img
                       className="user_img"
-                      src="/src/assets/images/profile/profile_1.png"
+                      src={`/src/assets/images/profile/profile_${1}.png`}
                       alt="User Profile"
                     />
                   </div>

@@ -1,0 +1,105 @@
+/* PostContent.css */
+
+.post_section {
+    max-width: 800px; /* 콘텐츠 너비 제한 */
+    margin: 20px auto; /* 중앙 정렬 */
+    padding: 20px;
+    line-height: 1.6; /* 줄 간격 */
+    font-size: 1.1rem; /* 기본 글꼴 크기 */
+    color: #333; /* 기본 글꼴 색상 */
+}
+
+.post_section h1,
+.post_section h2,
+.post_section h3,
+.post_section h4,
+.post_section h5,
+.post_section h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    color: #222;
+}
+
+.post_section h2 {
+    font-size: 1.8rem; /* h2 크기 */
+    border-bottom: 1px solid #eee; /* h2 아래 경계선 */
+    padding-bottom: 0.3em;
+    margin-bottom: 1em;
+}
+
+.post_section h3 {
+    font-size: 1.5rem; /* h3 크기 */
+    margin-bottom: 0.8em;
+}
+
+/* 강조된 텍스트 (strong) */
+.post_section strong {
+    font-weight: bold;
+    /* 색상을 변경하려면: color: #c00; */
+}
+
+/* 코드 블록 스타일 */
+.post_section pre {
+    background-color: #f6f8fa; /* GitHub 코드 블록과 유사한 배경색 */
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto; /* 내용이 길 때 스크롤바 */
+    position: relative; /* 복사 버튼을 위한 position */
+    margin-top: 20px; /* 위쪽 여백 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+    font-size: 0.95rem; /* 코드 글꼴 크기 */
+    line-height: 1.4;
+}
+
+.post_section pre code {
+    background-color: transparent; /* 인라인 코드 배경색과 겹치지 않게 */
+    padding: 0;
+    border-radius: 0;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; /* 모노스페이스 글꼴 */
+}
+
+/* 인라인 코드 스타일 */
+.post_section code {
+    background-color: rgba(27,31,35,.05); /* 약간 더 밝은 배경색 */
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    border-radius: 6px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+/* 목록 스타일 */
+.post_section ul {
+    list-style-type: disc; /* 원형 불릿 */
+    padding-left: 20px; /* 기본 들여쓰기 */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.post_section li {
+    margin-bottom: 5px;
+}
+
+/* 마크다운 링크 스타일 */
+.post_section a {
+    color: #0366d6; /* 파란색 링크 */
+    text-decoration: none;
+}
+
+.post_section a:hover {
+    text-decoration: underline;
+}
+
+/* 복사 버튼 스타일 */
+.post_section button {
+    /* 기존 button 스타일 유지 */
+    background-color: #f0f0f0; /* 복사 버튼 배경색 */
+    color: #333; /* 복사 버튼 글꼴 색상 */
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 1px rgba(27, 31, 35, .04);
+}
+
+.post_section button:hover {
+    background-color: #e0e0e0;
+}

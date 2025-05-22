@@ -25,11 +25,11 @@ export default function useInfiniteList(fetchFn, limit = 10) {
     }, [fetchFn, hasMore, limit]);
 
     const reset = useCallback(() => {
-    setItems([]);
-    setHasMore(true);
-    offsetRef.current = 0;
-    loadingRef.current = false;
-}, []);
+        setItems([]);
+        setHasMore(true);
+        offsetRef.current = 0;
+        loadingRef.current = false;
+    }, []);
 
     const observer = useRef();
     const lastRef = useCallback((node) => {

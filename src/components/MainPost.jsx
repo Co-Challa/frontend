@@ -1,26 +1,24 @@
-import React from "react";
-
+import { useState } from 'react';
 import "./mainPage.css";
 import { useNavigate } from "react-router-dom";
-import profile1 from "../assets/images/profile/profile_1.png";
-import profile2 from "../assets/images/profile/profile_2.png";
-import profile3 from "../assets/images/profile/profile_3.png";
-import profile4 from "../assets/images/profile/profile_4.png";
-import profile5 from "../assets/images/profile/profile_5.png";
-import profile6 from "../assets/images/profile/profile_6.png";
+import likedHeart from "../assets/icons/likedheart.png";
+import unlikedHeart from "../assets/icons/heart.png";
+import comments_icon from "../assets/icons/message.png";
+import { togglePostLike } from "../apis/userApi.js";
+import ReactMarkdown from "react-markdown";
 
 export default function MainPost({ post }) {
   const navigate = useNavigate();
   const {
-    postId,
     title,
     content,
-    userId,
     nickname,
-    profileImgCode,
-    createdAt,
-    likesCount,
-    commentsCount,
+    profile_img_code: profileImgCode,
+    created_at: createdAt,
+    post_id: postId,
+    likes_count: initialLikesCount,
+    liked,
+    comments_count,
   } = post;
 
   const formattedDate = createdAt
@@ -31,62 +29,58 @@ export default function MainPost({ post }) {
     navigate(`/post/${postId}`);
   };
 
-const profileMap = {
-  1: profile1,
-  2: profile2,
-  3: profile3,
-  4: profile4,
-  5: profile5,
-  6: profile6
-};
+  const profileImages = import.meta.glob('../assets/images/profile/*.png', {
+    eager: true,
+    import: 'default'
+  });
+  const imgSrc = profileImages[`../assets/images/profile/profile_${profileImgCode}.png`];
+  
+  const [likesCount, setLikesCount] = useState(initialLikesCount);
+  const [likedState, setLikedState] = useState(liked);
+  const heartImg = likedState ? likedHeart : unlikedHeart;
 
-const imgSrc = profileMap[profileImgCode];
+  const handleLike = async () => {
+    const next = !likedState;
+    setLikedState(next);
+    setLikesCount(prev => prev + (next ? 1 : -1));
+    try {
+      await togglePostLike(postId, next);
+    } catch (error) {
+      console.error("좋아요 토글 실패:", error);
+      setLikedState(!next);
+      setLikesCount(prev => prev - (next ? 1 : -1));
+    }
+  };
 
   return (
-    <div
-      className="summary_post"
-      onClick={handleClick}
-      style={{ cursor: "pointer" }}
-    >
+    <div className="summary_post">
+      <div className="profile" onClick={handleClick}>
+        <img src={imgSrc} alt="프로필 이미지" className="user_image" />
+        <div className="user_nickname">
+          <span className="preFix">Posted by </span>
+          <span>{nickname} ·</span>
+          <span className="preFix"> {formattedDate}</span>
+        </div>
+      </div>
 
-      {/* 프로필 */}
-      <div className="profile">
+      <div className="postTitle" onClick={handleClick}>{title}</div>
+
+      <div className="post_contnet" onClick={handleClick}><ReactMarkdown>{content}</ReactMarkdown></div>
+
+      <div className="icon_group">
         <img
-          src={imgSrc} alt="프로필 이미지"
-          className="user_image" />
-               <div className="nickname_time">
-          <div className="user_nickname">
-            <span className="prefix">post by </span>
-            <span className="nickname">{nickname}</span>
-            <span className="dot">·</span>
-            <span className="created_At">
-             {formattedDate}
-            </span>
-          </div>
-        </div>
+          className="icon_button"
+          onClick={handleLike}
+          src={heartImg}
+        />
+        <span className="icon_text">{likesCount}</span>
+
+        <div
+          className="icon_button"
+          style={{ backgroundImage: `url(${comments_icon})` }}
+        />
+        <span className="icon_text">{comments_count}</span>
       </div>
-
-      <div className="post_title">{title}</div>
-
-      {/* 게시글 요약 */}
-      <div className="post_contnet">{content}</div>
-
-      {/* 좋아요와 댓글 */}
-      <div className="interaction_bar">
-        {/*좋아요 버튼 */}
-        <div className="icon_group">
-          {/* <div className={`like_button ${liked ? "liked" : "unliked"}`}></div> */}
-          <span>{likesCount}</span>
-        </div>
-
-        {/* 댓글 아이콘 */}
-        <div className="icon_group">
-          <div className="comments_icon"></div>
-          <span>{commentsCount}</span>
-        </div>
-      </div>
-
-
     </div>
   );
 }

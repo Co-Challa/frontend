@@ -7,4 +7,5 @@
   /* border-right: 1px solid gray;
   border-left: 1px solid gray; */
   min-height: calc(100vh - 60px);
+  background-color: white;
 }
