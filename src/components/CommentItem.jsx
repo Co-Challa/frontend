@@ -4,7 +4,7 @@ import { deleteComment } from "/src/apis/postApi.js";
 
 import "./commentItem.css";
 
-export default function CommentItem({ ref, comment, setCommentCount, resetList }) {
+export default function CommentItem({ ref, comment, setCommentCount, reset }) {
 
   const handleDeleteComment = async () => {
     try {
@@ -21,8 +21,8 @@ export default function CommentItem({ ref, comment, setCommentCount, resetList }
         setCommentCount(commentCount);
       }
 
-      if (resetList) {
-        resetList();
+      if (reset) {
+        reset();
       }
 
     } catch (error) {

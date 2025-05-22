@@ -3,7 +3,7 @@ import { fetchComments } from "/src/apis/postApi.js";
 
 import CommentItem from './CommentItem';
 
-import useInfiniteList from '/src/hooks/userInfiniteList.js';
+import useInfiniteList from '/src/hooks/useInfiniteList.js';
 import "./commentList.css";
 
 export default function CommentList({ postId, setCommentCount, commentRefreshTrigger }) {
@@ -18,7 +18,7 @@ export default function CommentList({ postId, setCommentCount, commentRefreshTri
         hasMore,
         loading,
         lastRef,
-        resetList
+        reset
     } = useInfiniteList(commentsFetcher, 10);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function CommentList({ postId, setCommentCount, commentRefreshTri
             return;
         }
 
-        resetList();
+        reset();
     }, [commentRefreshTrigger])
 
     return (
@@ -43,7 +43,7 @@ export default function CommentList({ postId, setCommentCount, commentRefreshTri
                                 ref={isLastComment ? lastRef : null}
                                 comment={comment}
                                 setCommentCount={setCommentCount}
-                                resetList={resetList}
+                                reset={reset}
                             />
                         )
                     })
