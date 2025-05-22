@@ -42,7 +42,7 @@ export default function PostHeader({post}) {
                     {
                         checkOwner(post.userId) ? (
                             <div className="actions_right">
-                                <Link to="/chat">
+                                <Link to={`/chat?chatId=${post.chatId}`}>
                                     <img className="notification_icon" src="/src/assets/icons/message-circle.png" alt="Notifications" />
                                 </Link>
                                 <label className="toggle_switch">
