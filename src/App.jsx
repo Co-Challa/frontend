@@ -7,7 +7,6 @@ import SignupPage from "./pages/SignupPage";
 import PostPage from "./pages/PostPage";
 import MyPage from "./pages/MyPage";
 import ChatPage from "./pages/ChatPage";
-import ProtectedRoute from "./hooks/ProtectedRoute";
 
 function App() {
   return (
@@ -21,15 +20,7 @@ function App() {
 
             <Route path="/post/:postId" element={<PostPage />} />
             <Route path="/chat" element={<ChatPage />} />
-            <Route
-              path="/mypage"
-              element={
-                <ProtectedRoute>
-                  {" "}
-                  <MyPage />{" "}
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/mypage" element={<MyPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

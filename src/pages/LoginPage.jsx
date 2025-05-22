@@ -1,14 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./LoginPage.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  // 쿼리에서 from을 꺼내고 디코딩
-  const rawFrom = searchParams.get("from");
-  const from = rawFrom ? decodeURIComponent(rawFrom) : "/";
 
   const [form, setForm] = useState({ userId: "", password: "" });
 
@@ -16,12 +12,11 @@ export default function LoginPage() {
     const token = localStorage.getItem("token");
     if (token) {
       alert("이미 로그인 상태입니다.");
-      navigate(from, { replace: true });
     }
-  }, [from, navigate]);
+  }, []);
 
   const handleChange = (e) =>
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +26,7 @@ export default function LoginPage() {
       if (token) {
         localStorage.setItem("token", token);
         alert("로그인 성공!");
-        navigate(from, { replace: true });
+        navigate("/");
       } else {
         alert("토큰이 없습니다.");
       }
@@ -40,7 +35,7 @@ export default function LoginPage() {
       alert("에러: " + msg);
     }
   };
-  
+
   return (
     <div className="login-page">
       <div className="login-container">
