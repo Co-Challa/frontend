@@ -12,11 +12,6 @@ import "./postPage.css";
 
 export default function PostPage() {
   const { postId } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const inputCommentRef = useRef("");  
-  const [commentRefreshTrigger, setCommentRefreshTrigger] = useState(0);
-
   const [post, setPost] = useState(null);
 
   useEffect(() => {
