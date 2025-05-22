@@ -5,6 +5,7 @@ import HomePage from "../pages/HomePage";
 import PostPage from "../pages/PostPage";
 import ChatPage from "../pages/ChatPage";
 import MyPage from "../pages/MyPage";
+import NotFoundPage from "../pages/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
 
 export const routes = [
