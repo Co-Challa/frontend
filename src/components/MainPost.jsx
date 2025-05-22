@@ -47,7 +47,7 @@ export default function MainPost({ post }) {
     setLikesCount(prev => prev + (next ? 1 : -1));
     try {
       if (getLoggedInUserId() == null) {
-        if (confirm("로그인하시겠습니까?"))
+        if (confirm("로그인하시겠습니까?")) 
           navigate('/login');
         return;
       }
