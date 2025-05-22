@@ -37,7 +37,7 @@ export default function Header() {
               <>
                 <Link to="/mypage">
                   <div>
-                    <img className="user_img" src={`/src/assets/images/profile/profile_${1}.png`} alt="User Profile" />
+                    <img className="user_img" src={`/src/assets/icons/user_3.png`} alt="User Profile" />
                   </div>
                 </Link>
               </>
