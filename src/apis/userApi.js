@@ -21,6 +21,7 @@ export async function fetchUserPosts(offset, limit) {
         headers: { Authorization: `Bearer ${token}` },
         params: { offset, limit }
     });
+    console.log(data);
     return data;
 }
 
@@ -67,13 +68,18 @@ export async function updatePostVisibility(postId, isPublic) {
         throw new Error('accessToken이 없습니다.');
     }
 
-    const rawValue = isPublic ? 1 : 0;
+    const body = { isPublic: isPublic };
 
-    await axiosInstance.patch(`/post/${postId}`, rawValue, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-    });
+    await axiosInstance.patch(
+        `/post/${postId}`,
+        body,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    );
 }
 
 export async function togglePostLike(postId, liked) {
@@ -82,13 +88,18 @@ export async function togglePostLike(postId, liked) {
         throw new Error('accessToken이 없습니다.');
     }
 
-    const value = liked ? 1 : 0;
+    const body = { isLike: liked };
 
-    await axiosInstance.post(`/like/${postId}`, value, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-    });
+    await axiosInstance.post(
+        `/like/${postId}`,
+        body,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    );
 }
 
 export async function deleteComment(commentId) {
