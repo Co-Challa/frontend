@@ -10,7 +10,7 @@
 }
 
 /* 게시글 요약 스타일 */
-.post_contnet {
+.summary_post {
     font-size: 14px;
     background-color: #ffffff;
     border: 2px solid #d3d3d3;
@@ -20,13 +20,29 @@
     transition: all 0.3s ease;  /* 마우스 hover 시 부드럽게 전환 가능하게 설정 */
 }
 
+/* 게시글 */
+.post_contnet {
+  font-size: 15px;
+  margin: 0px 0 10px 0;
+  color: #242524;
+  display: -webkit-box;
+  line-height: 22px;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 /* 제목 스타일 */
 .post_title {
-    font-size: 15px;
-    font-weight: bold;
-    color: #343a40;
-    margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
+  color: #242524;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* 프로필 스타일 */
@@ -46,7 +62,7 @@
 
 /* 닉네임 스타일 */
 .user_nickname {
-    font-size: 12px;
+  font-size: 12px;
 }
 .user_nickname .prefix {
   color: #999; /* 부트스트랩 기준 연한 회색 */
@@ -58,8 +74,9 @@
 }
 /* 시간 스타일 */
 .created_At {
-    color: #999;
-    font-size: 12px;
+  color: #8C8D8B;
+  font-size: 15px;
+
 }
 .dot {
   margin: 0 6px;      
@@ -78,6 +95,7 @@
   white-space: normal;
   overflow: hidden;                 /* 넘치는 내용 숨기기 */
   text-overflow: ellipsis;         /* 생략 (...) 처리 */
+  margin-bottom: 20px;
 }
 
 /* 좋아요와 댓글 아이콘 스타일 */
@@ -86,6 +104,7 @@
   align-items: center;
   gap: 16px;
   margin-top: 8px;
+  margin-bottom: 20px;
 }
 
 .icon_group {
@@ -95,20 +114,11 @@
   cursor: pointer;
 }
 
-.like_button,
-.comments_icon {
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.like_button.liked {
+.like_button.likedHeart {
   background-image: url("/icons/likedheart.png");
 }
 
-.like_button.unliked {
+.like_button.unlikedHeart {
   background-image: url("/icons/heart.png");
 }
 .comments_icon {
