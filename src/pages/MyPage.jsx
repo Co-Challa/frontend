@@ -21,8 +21,6 @@ export default function MyPage() {
   const postList = useInfiniteList(fetchUserPosts, 10);
   const likedList = useInfiniteList(fetchUserLiked, 10);
   const commentList = useInfiniteList(fetchUserComments, 10);
-  localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5YXB5YXAiLCJpYXQiOjE3NDc4MzQ2ODIsImV4cCI6MTc0NzgzODI4Mn0.6tMI4KwUxISLBJJJvadeeTst2Otk6iDNprLFpKUMdTQ")
-
   const isInitialMount = useRef(true);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./UserPostCard.css";
 import heartIcon from "../assets/icons/heart.png";
 import likedHeartIcon from "../assets/icons/likedheart.png";
@@ -8,6 +8,8 @@ import alertIcon from "../assets/icons/alert.png";
 import { updatePostVisibility, togglePostLike } from "../apis/userApi";
 
 export default function UserPostCard({ post, onLikeChange }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     post_id,
     title,
@@ -21,9 +23,7 @@ export default function UserPostCard({ post, onLikeChange }) {
     author_profile_img,
   } = post;
 
-  const location = useLocation();
   const pathname = location.pathname;
-
   const isMyPage = pathname === "/mypage";
   const showAuthor = !isMyPage || !!author_name;
   const canToggle = isMyPage && !author_name;
@@ -48,7 +48,6 @@ export default function UserPostCard({ post, onLikeChange }) {
   const handleToggle = async () => {
     const next = !publicState;
     setPublicState(next);
-
     try {
       await updatePostVisibility(post_id, next);
     } catch (error) {
@@ -61,7 +60,6 @@ export default function UserPostCard({ post, onLikeChange }) {
     const next = !likedState;
     setLikedState(next);
     setLikeCount((prev) => prev + (next ? 1 : -1));
-
     try {
       await togglePostLike(post_id, next);
       if (onLikeChange) onLikeChange();
@@ -79,6 +77,10 @@ export default function UserPostCard({ post, onLikeChange }) {
     }, 5000);
   };
 
+  const handleCardClick = () => {
+    navigate(`/post/${post_id}`);
+  };
+
   if (isEmpty) {
     return isRetrying ? (
       <div className="loading_card">
@@ -91,10 +93,9 @@ export default function UserPostCard({ post, onLikeChange }) {
       <div className="error_card">
         <span className="error_message">
           <img src={alertIcon} alt="alert" className="error_icon" />
-          {formattedDate} 요약 생성 중 오류가 발생했어요. 재시도 버튼을 눌러
-          요약을 다시 요청해주세요.
+          {formattedDate} 요약 생성 중 오류가 발생했어요. 재시도 버튼을 눌러 요약을 다시 요청해주세요.
         </span>
-        <button className="retry_button" onClick={handleRetry}>
+        <button className="retry_button" onClick={(e) => { e.stopPropagation(); handleRetry(); }}>
           재시도
         </button>
       </div>
@@ -102,14 +103,13 @@ export default function UserPostCard({ post, onLikeChange }) {
   }
 
   return (
-    <div className="userpost_card">
+    <div className="userpost_card" onClick={handleCardClick}>
       <div className="userpost_card_header">
         {showAuthor ? (
           <span className="userpost_card_date with_profile">
             <img src={avatarSrc} alt="profile" className="profile_img" />
             <span>
-              Posted by <span className="post_nickname">{author_name}</span> ·{" "}
-              {formattedDate}
+              Posted by <span className="post_nickname">{author_name}</span> · {formattedDate}
             </span>
           </span>
         ) : (
@@ -122,7 +122,7 @@ export default function UserPostCard({ post, onLikeChange }) {
         <div className="userpost_card_stats">
           <span
             className="icon_text"
-            onClick={handleLike}
+            onClick={(e) => { e.stopPropagation(); handleLike(); }}
             style={{ cursor: "pointer" }}
           >
             <img src={heartImg} alt="heart" className="icon" />
@@ -134,12 +134,12 @@ export default function UserPostCard({ post, onLikeChange }) {
           </span>
         </div>
         {canToggle && (
-          <div className="userpost_card_toggle">
+          <div className="userpost_card_toggle" onClick={(e) => e.stopPropagation()}>
             <label className="switch">
               <input
                 type="checkbox"
                 checked={publicState}
-                onChange={handleToggle}
+                onChange={(e) => { e.stopPropagation(); handleToggle(); }}
               />
               <span className="slider round"></span>
             </label>

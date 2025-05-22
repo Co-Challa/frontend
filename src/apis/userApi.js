@@ -21,7 +21,6 @@ export async function fetchUserPosts(offset, limit) {
         headers: { Authorization: `Bearer ${token}` },
         params: { offset, limit }
     });
-    console.log(data);
     return data;
 }
 
