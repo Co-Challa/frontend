@@ -7,7 +7,6 @@ export async function fetchUserById() {
     }
 
     const { data } = await axiosInstance.get("/user/me", {
-        headers: { Authorization: `Bearer ${token}` }
     });
     return data;
 }
@@ -18,9 +17,9 @@ export async function fetchUserPosts(offset, limit) {
         throw new Error('accessToken이 없습니다.');
     }
     const { data } = await axiosInstance.get('/user/posts', {
-        headers: { Authorization: `Bearer ${token}` },
         params: { offset, limit }
     });
+
     return data;
 }
 
@@ -30,7 +29,6 @@ export async function fetchUserLiked(offset, limit) {
         throw new Error('accessToken이 없습니다.');
     }
     const { data } = await axiosInstance.get('/user/liked', {
-        headers: { Authorization: `Bearer ${token}` },
         params: { offset, limit }
     });
     return data;
@@ -42,7 +40,6 @@ export async function fetchUserComments(offset, limit) {
         throw new Error('accessToken이 없습니다.');
     }
     const { data } = await axiosInstance.get('/user/comments', {
-        headers: { Authorization: `Bearer ${token}` },
         params: { offset, limit }
     });
     return data;
@@ -53,12 +50,7 @@ export async function updateUserInfo(updatedInfo) {
     if (!token) {
         throw new Error('accessToken이 없습니다.');
     }
-    await axiosInstance.post('/user/update', updatedInfo, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    });
+    await axiosInstance.post('/user/update', updatedInfo);
 }
 
 export async function updatePostVisibility(postId, isPublic) {
@@ -67,13 +59,11 @@ export async function updatePostVisibility(postId, isPublic) {
         throw new Error('accessToken이 없습니다.');
     }
 
-    const rawValue = isPublic ? 1 : 0;
-
-    await axiosInstance.patch(`/post/${postId}`, rawValue, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-    });
+    await axiosInstance.patch(`/post/${postId}`,
+        {
+            isPublic: isPublic
+        }
+    );
 }
 
 export async function togglePostLike(postId, liked) {
@@ -82,13 +72,11 @@ export async function togglePostLike(postId, liked) {
         throw new Error('accessToken이 없습니다.');
     }
 
-    const value = liked ? 1 : 0;
-
-    await axiosInstance.post(`/like/${postId}`, value, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-    });
+    await axiosInstance.post(`/like/${postId}`,
+        {
+            isLike: liked
+        }
+    );
 }
 
 export async function deleteComment(commentId) {
@@ -97,9 +85,5 @@ export async function deleteComment(commentId) {
         throw new Error('accessToken이 없습니다.');
     }
 
-    await axiosInstance.delete(`/comment/${commentId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    await axiosInstance.delete(`/comment/${commentId}`);
 }

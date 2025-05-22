@@ -1,0 +1,67 @@
+/* PostComment.css */
+
+/* Comments Heading */
+.comments_heading {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #333333;
+    margin-bottom: 20px; /* Space between heading and input box */
+    margin-top: 0; /* Reset default heading margin */
+}
+
+/* Comment Input Section */
+.comment_input_section {
+    display: flex;
+    flex-direction: column; /* Stack textarea and button vertically */
+    gap: 15px; /* Space between textarea and button */
+}
+
+.comment_textarea {
+    width: 100%;
+    min-height: 80px; /* Minimum height for the textarea */
+    padding: 15px;
+    border: 1px solid #EBEBEA;
+    border-radius: 8px;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+    resize: none; /* Allow vertical resizing by user */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.comment_textarea::placeholder {
+    color: #B0B0B0; /* Placeholder text color */
+}
+
+.comment_textarea:focus {
+    outline: none;
+    border-color: #626FE4; /* Highlight border on focus */
+    box-shadow: 0 0 0 2px rgba(98, 111, 228, 0.2); /* Subtle glow on focus */
+}
+
+/* Submit Comment Button */
+.submit_comment_button {
+    align-self: flex-end; /* Aligns the button to the right */
+    padding: 10px 20px;
+    background-color: #626FE4; /* Blue background for the button */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    border-radius: 8px;
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.submit_comment_button:hover {
+    background-color: #4A5AC8; /* Slightly darker blue on hover */
+}
+
+.submit_comment_button:active {
+    background-color: #3845B0; /* Even darker blue on click */
+}

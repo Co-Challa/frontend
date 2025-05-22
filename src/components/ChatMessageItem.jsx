@@ -75,6 +75,12 @@ export default function ChatMessageItem({ role, content, timestamp }) {
                 </code>
               );
             },
+            // 여기부터 추가된 부분입니다.
+            strong: ({ children, ...props }) => (
+              <strong style={{ fontWeight: "bold" }} {...props}>
+                {children}
+              </strong>
+            ),
           }}
         >
           {content}
