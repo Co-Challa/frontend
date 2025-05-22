@@ -16,32 +16,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <MainLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <HomePage />
-                </ProtectedRoute>
-              }
-            />
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
 
-            <Route
-              path="/post/:postId"
-              element={
-                <ProtectedRoute>
-                  {" "}
-                  <PostPage />{" "}
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/post/:postId" element={<PostPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route
               path="/mypage"

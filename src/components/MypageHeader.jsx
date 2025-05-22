@@ -14,7 +14,7 @@ export default function MyPageHeader({ user, onUpdate }) {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   return (
