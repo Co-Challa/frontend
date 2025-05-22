@@ -40,4 +40,8 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ];
