@@ -44,12 +44,13 @@ export default function MainPost({ post }) {
   const handleLike = async () => {
     const next = !likedState;
     setLikedState(next);
-    setLikesCount((prev) => prev + (next ? 1 : -1));
-    try {
-      if (getLoggedInUserId() == null) {
-        if (confirm("로그인하시겠습니까?")) navigate("/login");
+    setLikesCount(prev => prev + (next ? 1 : -1));
+    if (getLoggedInUserId() == null) {
+        if (confirm("로그인하시겠습니까?")) 
+          navigate('/login');
         return;
       }
+    try {
       await togglePostLike(postId, next);
     } catch (error) {
       console.error("좋아요 토글 실패:", error);
