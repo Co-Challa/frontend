@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import "./UserPostCard.css";
+import "./userPostCard.css";
 import heartIcon from "../assets/icons/heart.png";
 import likedHeartIcon from "../assets/icons/likedheart.png";
 import messageIcon from "../assets/icons/message.png";
@@ -22,6 +22,7 @@ export default function UserPostCard({ post, onLikeChange }) {
     liked,
     author_name,
     author_profile_img,
+    summary_id
   } = post;
 
   const pathname = location.pathname;
